@@ -1,0 +1,33 @@
+import React from 'react';
+import AnnouncementBar from './components/AnnouncementBar';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import ClientStrip from './components/ClientStrip';
+import AboutSection from './components/AboutSection';
+import FeaturedWork from './components/FeaturedWork';
+import ServicesSection from './components/ServicesSection';
+import PioneersSection from './components/PioneersSection';
+import BlogSection from './components/BlogSection';
+import ReadySection from './components/ReadySection';
+import Footer from './components/Footer';
+import "./index.css";
+
+export default function App() {
+  return (
+    <>
+      <AnnouncementBar />
+      <Navbar />
+      <main>
+        <Hero />
+        <ClientStrip />
+        <AboutSection />
+        <FeaturedWork />
+        <ServicesSection />
+        <PioneersSection />
+        <BlogSection />
+        <ReadySection />
+      </main>
+      <Footer />
+    </>
+  );
+}
