@@ -14,7 +14,7 @@ import "./index.css";
 
 export default function App() {
   return (
-    <>
+    <div className='bg-[#f0efeb]'>
       <AnnouncementBar />
       <Navbar />
       <main>
@@ -28,6 +28,6 @@ export default function App() {
         <ReadySection />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
