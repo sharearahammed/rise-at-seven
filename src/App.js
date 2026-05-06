@@ -11,10 +11,12 @@ import BlogSection from './components/BlogSection';
 import ReadySection from './components/ReadySection';
 import Footer from './components/Footer';
 import "./index.css";
+import PageTransition from './components/PageTransition';
 
 export default function App() {
   return (
     <div className='bg-[#f0efeb]'>
+     <PageTransition color="#B2F6E3" holdDur={0.05} exitDur={1} />
       <AnnouncementBar />
       <Navbar />
       <main>

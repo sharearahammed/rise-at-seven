@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import One from "../assets/svg/one.svg";
 import Two from "../assets/svg/two.svg";
@@ -36,22 +36,57 @@ const PLATFORMS = [
 
 const BACKGROUNDS = [RedBull, unnamed, spaseekers, room, Screenshot];
 
+const avatarStyles = `
+  .avatar-wrapper {
+    position: relative;
+    border-radius: 15%;
+    overflow: hidden;
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0px;
+    height: 60px;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .avatar-wrapper.open {
+    width: 71px;
+    height: 71px;
+  }
+
+  @media (min-width: 1024px) {
+    .avatar-wrapper.open {
+      width: 113px;
+      height: 113px;
+    }
+  }
+`;
+
 export default function Hero() {
+  const [open, setOpen] = useState(false);
+
   const bgImage = useMemo(() => {
     const index = Math.floor(Math.random() * BACKGROUNDS.length);
     return BACKGROUNDS[index];
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setOpen(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden rounded-[20px] mx-3">
+    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden rounded-[25px] mx-2">
+      <style>{avatarStyles}</style>
+
       {/* Blurred Background */}
       <div
-        className="absolute inset-0 scale-110"
+        className="absolute inset-0 scale-350"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(8px)",
+          filter: "blur(12px)",
         }}
       />
 
@@ -77,22 +112,22 @@ export default function Hero() {
           We Create <br />
           <span className="inline-flex items-center gap-3 flex-wrap justify-center">
             Category
-            <span className="lg:w-[113px] lg:h-[113px] sm:w-[71px] sm:h-[71px] w-[56px] h-[56px] rounded-lg overflow-hidden shadow-lg">
+            <div className={`avatar-wrapper ${open ? "open" : ""} mt-2`}>
               <img
                 src={bgImage}
-                alt="dynamic"
+                alt="img"
                 className="w-full h-full object-cover"
               />
-            </span>
+            </div>
             Leaders
           </span>
         </h1>
 
-        <p className="text-white/90 text-[18px] mb-10 font-bold">
+        <p className="text-white/90 text-[19px] mb-10 font-bold">
           on every searchable platform
         </p>
 
-        <div className="lg:flex md:hidden sm:hidden hidden flex flex-wrap justify-center items-center gap-12">
+        <div className="lg:flex md:hidden sm:hidden hidden flex-wrap justify-center items-center gap-12">
           {PLATFORMS.map((p) => (
             <img
               key={p.label}

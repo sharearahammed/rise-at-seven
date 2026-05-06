@@ -1,190 +1,295 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from "react";
+import DigitalPR from "../assets/jpg/Degital-pr.jpg";
+import OrganicSocial from "../assets/jpg/organic-social-content.jpg";
+import SearchGrowth from "../assets/jpg/search-and-growth.jpg";
+import ContentExperience from "../assets/jpg/content-experience.jpg";
+import DataInsights from "../assets/jpg/data-and-insights.jpg";
+import OnsiteSEO from "../assets/jpg/on-site-seo.png";
+import Services from "../assets/jpg/services.JPG";
+import { GoArrowUpRight } from "react-icons/go";
+import { MdOutlineArrowUpward } from "react-icons/md";
+import { gsap } from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(SplitText);
 const SERVICES = [
-  'Digital PR',
-  'Organic Social & Content',
-  'Search & Growth Strategy',
-  'Content Experience',
-  'Data & Insights',
-  'Onsite SEO',
+  { label: "Digital PR", image: DigitalPR, borderWidth: "75%" },
+  {
+    label: "Organic Social & Content",
+    image: OrganicSocial,
+    borderWidth: "75%",
+  },
+  {
+    label: "Search & Growth Strategy",
+    image: SearchGrowth,
+    borderWidth: "75%",
+  },
+  { label: "Content Experience", image: ContentExperience, borderWidth: "75%" },
+  { label: "Data & Insights", image: DataInsights, borderWidth: "75%" },
+  { label: "Onsite SEO", image: OnsiteSEO, borderWidth: "75%" },
 ];
+
+const avatarStyles = `
+  .avatar-wrapper {
+    position: relative;
+    border-radius: 15%;
+    overflow: hidden;
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0px;
+    height: 60px;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .avatar-wrapper.open {
+    width: 71px;
+    height: 71px;
+  }
+
+  @media (min-width: 1024px) {
+    .avatar-wrapper.open {
+      width: 113px;
+      height: 113px;
+    }
+  }
+`;
 
 export default function ServicesSection() {
   const [hovered, setHovered] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [imgSize, setImgSize] = useState({ w: "0px", h: "60px" });
+  const headingRef1 = useRef(null);
+  const headingRef2 = useRef(null);
+  const splitRef1 = useRef(null);
+  const splitRef2 = useRef(null);
+  const animRef = useRef(null);
+  const sectionRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+
+    document.fonts.ready.then(() => {
+      gsap.to(section, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 85%",
+          once: true,
+        },
+        onComplete: () => {
+          splitRef1.current?.revert();
+          splitRef2.current?.revert();
+
+          splitRef1.current = SplitText.create(headingRef1.current, {
+            type: "chars",
+            mask: "chars",
+          });
+
+          splitRef2.current = SplitText.create(headingRef2.current, {
+            type: "chars",
+            mask: "chars",
+          });
+
+          const chars1 = splitRef1.current.chars; // O, u, r
+          const chars2 = splitRef2.current.chars; // S, e, r, v, i, c, e, s
+          const staggerTime = 0.08;
+
+          // O, u, r animate
+          gsap.from(chars1, {
+            yPercent: 110,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: staggerTime,
+          });
+
+          // S, e, r, v, i, c, e, s animate
+          gsap.from(chars2, {
+            yPercent: 110,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: staggerTime,
+            delay: chars1.length * staggerTime,
+          });
+
+          // সব char শেষ হওয়ার পর image খুলবে
+          const allCharsTime =
+            (chars1.length + chars2.length) * staggerTime + 0.5;
+          setTimeout(() => {
+            const isLg = window.innerWidth >= 1024;
+            setImgSize({
+              w: isLg ? "113px" : "54px",
+              h: isLg ? "113px" : "54px",
+            });
+            setOpen(true);
+          }, allCharsTime * 1000);
+        },
+      });
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
 
   return (
-    <section style={{ background: '#f0efeb', padding: '80px 40px' }} className="services-section">
+    <section className="bg-[#f0efeb] px-10 py-28 max-md:px-6 max-md:py-10">
+      <style>{avatarStyles}</style>
       {/* Header */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: '40px',
-        paddingBottom: '20px',
-        borderBottom: '1px solid rgba(0,0,0,0.12)',
-        flexWrap: 'wrap',
-        gap: '16px',
-      }}>
-        <h2 style={{
-          fontSize: 'clamp(34px, 5vw, 68px)',
-          fontWeight: 900,
-          letterSpacing: '-0.04em',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-        }}>
-          Our
-          <span style={{
-            display: 'inline-block',
-            width: 'clamp(44px,5vw,56px)',
-            height: 'clamp(44px,5vw,56px)',
-            borderRadius: '10px',
-            overflow: 'hidden',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-          }}>
-            <svg viewBox="0 0 56 56" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <rect width="56" height="56" fill="#555" />
-              <circle cx="20" cy="22" r="8" fill="#aaa" />
-              <circle cx="36" cy="22" r="8" fill="#888" />
-              <rect x="10" y="34" width="20" height="14" rx="4" fill="#333" />
-              <rect x="26" y="34" width="20" height="14" rx="4" fill="#444" />
-            </svg>
+      <div className="flex items-center justify-between pb-6 lg:border-b border-black/15 flex-wrap gap-4">
+        <div ref={sectionRef} className="flex items-center gap-3 leading-none">
+          <span
+            ref={headingRef1}
+            className="xl:text-[100px] lg:text-[75px] text-[60px] font-semibold tracking-[-0.04em] leading-none select-none overflow-hidden inline-block"
+          >
+            Our
           </span>
-          Services
-        </h2>
-        <a
-          href="#"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '10px 20px',
-            border: '1.5px solid #0a0a0a',
-            borderRadius: '100px',
-            fontSize: '13px',
-            fontWeight: 600,
-            textDecoration: 'none',
-            color: '#0a0a0a',
-            transition: 'background 0.2s, color 0.2s',
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.color = '#fff'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#0a0a0a'; }}
-        >
-          View All Services ↗
+          <span
+            ref={imageRef}
+            style={{
+              width: open ? imgSize.w : "0px",
+              height: open ? imgSize.h : "55px",
+              transition:
+                "width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            }}
+            className="relative inline-block overflow-hidden rounded-[15%] shrink-0 shadow"
+          >
+            <img
+              src={Services}
+              alt="img"
+              className="w-full h-full object-cover"
+            />
+          </span>
+          <span
+            ref={headingRef2}
+            className="xl:text-[100px] lg:text-[75px] text-[60px] font-semibold tracking-[-0.04em] leading-none select-none overflow-hidden inline-block"
+          >
+            Services
+          </span>
+        </div>
+
+        <a href="#" className="git-btn">
+          <span className="git-text">View All Services ↗</span>
+          <span className="git-hover-text">View All Services ↗</span>
         </a>
       </div>
 
-      {/* Services grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '0',
-      }} className="services-grid">
+      {/* --------------------------- */}
+      <div className="lg:mt-8 mt-2 grid grid-cols-2 gap-x-2 max-md:grid-cols-1">
         {SERVICES.map((service, i) => {
-          const isOdd = i % 2 === 0;
+          const isHovered = hovered === i;
+          const isLastRow = i >= SERVICES.length - 2;
+
           return (
             <div
-              key={service}
+              key={i}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              style={{
-                padding: '28px 0',
-                paddingRight: isOdd ? '40px' : '0',
-                paddingLeft: isOdd ? '0' : '40px',
-                borderBottom: '1px solid rgba(0,0,0,0.1)',
-                borderRight: isOdd ? '1px solid rgba(0,0,0,0.1)' : 'none',
-                fontSize: 'clamp(20px, 2.8vw, 36px)',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                cursor: 'pointer',
-                opacity: hovered !== null && hovered !== i ? 0.4 : 1,
-                transition: 'opacity 0.25s',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
+              className="relative flex items-center cursor-pointer overflow-hidden"
             >
-              {service}
+              {/* Desktop: hover background image */}
+              <div
+                className="rounded-full absolute inset-0 bg-cover bg-center transition-opacity duration-500 max-md:hidden"
+                style={{
+                  backgroundImage: `url(${service.image})`,
+                  opacity: isHovered ? 1 : 0,
+                }}
+              />
+
+              {/* Desktop: hover overlay */}
+              <div
+                className="rounded-full absolute inset-0 bg-black/70 transition-opacity duration-500 max-md:hidden"
+                style={{ opacity: isHovered ? 1 : 0 }}
+              />
+
+              {/* Content */}
+              <div className="relative z-10 flex items-center w-full lg:py-3.5 md:py-0 sm:py-3 py-3 gap-2">
+                {/* Mobile: thumbnail */}
+                <div
+                  className="hidden max-md:block w-[52px] h-[52px] rounded-xl overflow-hidden shrink-0 ml-0"
+                  style={{
+                    backgroundImage: `url(${service.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+
+                {/* Desktop: Arrow */}
+                <span className="ml-10 relative w-[80px] h-[80px] overflow-hidden shrink-0 max-md:hidden">
+                  <span
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ease-[cubic-bezier(0.77s,0,0.175,1)] ${
+                      isHovered
+                        ? "translate-x-0 translate-y-0 opacity-100 rotate-45"
+                        : "-translate-x-full translate-y-16 opacity-0 rotate-30"
+                    }`}
+                  >
+                    <MdOutlineArrowUpward className="text-[75px] text-white" />
+                  </span>
+                </span>
+
+                {/* Label */}
+                <span
+                  className={`text-[28px] lg:text-[36px] xl:text-[60px] font-medium transition-all duration-300 
+              max-md:ml-3 max-md:text-[18px] max-md:font-semibold max-md:text-black max-md:translate-x-0
+              ${
+                isHovered
+                  ? "text-white translate-x-10 ml-[-50px]"
+                  : "text-black -translate-x-10 ml-[-50px]"
+              }`}
+                >
+                  {service.label}
+                </span>
+              </div>
+
+              {/* Border */}
+              {/* <div
+                className="absolute bottom-0 h-[1px] bg-black/10 max-md:left-0 max-md:w-full left-14"
+                style={{
+                  width:
+                    window.innerWidth >= 768 ? service.borderWidth : "100%",
+                }}
+              /> */}
+              {!isLastRow && (
+                <div
+                  className="lg:flex md:flex hidden absolute bottom-0 h-[1px] bg-black/10 max-md:left-0 max-md:w-full left-14"
+                  style={{
+                    width:
+                      window.innerWidth >= 768 ? service.borderWidth : "100%",
+                  }}
+                />
+              )}
+              <div className="lg:hidden md:hidden flex absolute bottom-0 h-[1px] bg-black/20 lg:max-md:left-0 max-md:w-full" />
             </div>
           );
         })}
       </div>
 
+      <div className="lg:hidden flex mt-4">
+        <a href="#" className="git-btn-responsive">
+          <span className="git-text">View All Services ↗</span>
+          <span className="git-hover-text">View All Services ↗</span>
+        </a>
+      </div>
+
       {/* Marquee */}
-      <div style={{ overflow: 'hidden', marginTop: '60px', whiteSpace: 'nowrap' }}>
-        <span style={{
-          display: 'inline-block',
-          fontSize: 'clamp(60px, 10vw, 140px)',
-          fontWeight: 900,
-          letterSpacing: '-0.05em',
-          color: '#0a0a0a',
-          animation: 'svcMarquee 18s linear infinite',
-          paddingRight: '80px',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-          verticalAlign: 'middle',
-        }}>
-          …rithms
-          <span style={{
-            display: 'inline-block',
-            width: 'clamp(60px, 8vw, 110px)',
-            height: 'clamp(60px, 8vw, 110px)',
-            borderRadius: '14px',
-            overflow: 'hidden',
-            verticalAlign: 'middle',
-            margin: '0 12px',
-          }}>
-            <svg viewBox="0 0 110 110" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <rect width="110" height="110" fill="#222" />
-              <rect x="10" y="10" width="90" height="55" rx="4" fill="#333" />
-              <text x="55" y="44" fontSize="10" fontWeight="700" fill="white" textAnchor="middle" fontFamily="sans-serif">CONFERENCE</text>
-              <rect x="30" y="70" width="50" height="30" rx="4" fill="#444" />
-              <circle cx="55" cy="85" r="6" fill="#666" />
-            </svg>
-          </span>
-          Chasing Consumers &nbsp;&nbsp;&nbsp; …rithms
-          <span style={{
-            display: 'inline-block',
-            width: 'clamp(60px, 8vw, 110px)',
-            height: 'clamp(60px, 8vw, 110px)',
-            borderRadius: '14px',
-            overflow: 'hidden',
-            verticalAlign: 'middle',
-            margin: '0 12px',
-          }}>
-            <svg viewBox="0 0 110 110" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <rect width="110" height="110" fill="#222" />
-              <rect x="10" y="10" width="90" height="55" rx="4" fill="#333" />
-              <text x="55" y="44" fontSize="10" fontWeight="700" fill="white" textAnchor="middle" fontFamily="sans-serif">CONFERENCE</text>
-              <rect x="30" y="70" width="50" height="30" rx="4" fill="#444" />
-              <circle cx="55" cy="85" r="6" fill="#666" />
-            </svg>
-          </span>
-          Chasing Consumers
-        </span>
+      <div className="overflow-hidden mt-16 whitespace-nowrap">
+        <div className="animate-marquee text-[clamp(60px,10vw,140px)] font-black tracking-[-0.05em]">
+          Not Chasing Algorithms, Chasing Consumers
+        </div>
       </div>
 
       <style>{`
-        @keyframes svcMarquee {
+        .animate-marquee {
+          animation: marquee 18s linear infinite;
+        }
+        @keyframes marquee {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
-        }
-        .services-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        @media (max-width: 900px) {
-          .services-section {
-            padding: 60px 24px !important;
-          }
-          .services-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .services-grid > div {
-            padding-right: 0 !important;
-            padding-left: 0 !important;
-            border-right: none !important;
-          }
         }
       `}</style>
     </section>

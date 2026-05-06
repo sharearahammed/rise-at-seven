@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import navIcon from "../assets/svg/navIcon.svg";
+import navIcon2 from "../assets/svg/navIcon2.svg";
 
 const NAV_LINKS = [
   {
@@ -107,8 +108,9 @@ export default function Navbar() {
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .ras-nav {
-    margin: 10px;
-    border-radius: 50px;
+    margin: 8px;
+    margin-top: 16px;
+    border-radius: 70px;
     position: fixed;
     left: 0; right: 0;
     z-index: 100;
@@ -125,11 +127,29 @@ export default function Navbar() {
       box-shadow 0.4s ease;
   }
   .ras-nav.at-top { background: transparent; backdrop-filter: none; box-shadow: none; border-bottom: none; }
-  .ras-nav.scrolled-up {
-    backdrop-filter: blur(18px) saturate(1.6);
-    box-shadow: 0 2px 28px rgba(120,90,60,0.12);
-    border-bottom: 1px solid rgba(200,175,140,0.30);
-  }
+.ras-nav.scrolled-up {
+  background: rgba(255, 255, 255, 0.60);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: none;
+  border-bottom: none;
+}
+  .ras-nav.scrolled-up .git-btn {
+  background: #1a1a1a;
+  color: #ffffff;
+ }
+    .ras-nav.scrolled-up .git-btn-responsive {
+  background: #1a1a1a;
+  color: #ffffff;
+ }  
+  .ras-nav.scrolled-up .git-btn {
+  background: #1a1a1a;
+  color: #ffffff;
+ }
+    .ras-nav.scrolled-up .git-btn-responsive {
+  background: #1a1a1a;
+  color: #ffffff;
+ }
   .ras-nav.hidden-nav { transform: translateY(-200%); }
   .ras-nav.visible-nav { transform: translateY(0); }
 
@@ -138,7 +158,14 @@ export default function Navbar() {
     font-size: 16px; font-weight: 700; color: ${WHITE};
     text-decoration: none; opacity: 0.85;
     transition: opacity 0.2s; font-family: ${FONT};
+    color: #1a1a1a;
   }
+    .ras-nav.at-top .ras-desktop-links a {
+  color: #ffffff;
+}
+.ras-nav.scrolled-up .ras-desktop-links a {
+  color: #1a1a1a;
+}
   .ras-desktop-links a:hover { opacity: 1; }
 
   .ras-badge {
@@ -231,6 +258,11 @@ export default function Navbar() {
   @media (max-width: 1023px) {
     .ras-nav { border-radius: 0px; margin: 0px; }
   }
+  @media (max-width: 767px) {
+    .git-btn-responsive {width: 100% !important; }
+    .git-text {text-align: center; width: 100%; display: block;}
+    .git-hover-text{text-align: center; display: block;}
+  }
 
   .git-btn {
     display: inline-flex; align-items: center;
@@ -240,7 +272,16 @@ export default function Navbar() {
     text-decoration: none; font-family: ${FONT};
     width: fit-content; transition: border-radius 0.14s ease;
   }
+  .git-btn-responsive {
+    display: inline-flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 12px 24px; background: #ffffff; color: #1a1a1a;
+    border-radius: 100px; font-size: 15px; font-weight: 600;
+    text-decoration: none; font-family: ${FONT};
+    width: fit-content; transition: border-radius 0.14s ease;
+  }
   .git-btn:hover { border-radius: 12px; }
+  .git-btn-responsive:hover { border-radius: 12px; }
   .git-text {
     display: block; transform: translateY(0%); opacity: 1;
     transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
@@ -251,7 +292,9 @@ export default function Navbar() {
     transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
   }
   .git-btn:hover .git-text { transform: translateY(-100%); opacity: 0; }
+  .git-btn-responsive:hover .git-text { transform: translateY(-100%); opacity: 0; }
   .git-btn:hover .git-hover-text { transform: translateY(0%); opacity: 1; }
+  .git-btn-responsive:hover .git-hover-text { transform: translateY(0%); opacity: 1; }
 `}</style>
 
       <nav
@@ -263,7 +306,11 @@ export default function Navbar() {
         style={{ top: `${navTop}px` }}
       >
         <a href="#" className="ras-logo lg:w-40 md:w-40 sm:w-26 w-[120px]">
-          <img src={navIcon} alt="Rise at Seven" className="h-6 w-auto" />
+          <img
+            src={atTop ? navIcon : navIcon2}
+            alt="Rise at Seven"
+            className="h-6 w-auto"
+          />
         </a>
 
         <ul className="ras-desktop-links">
@@ -304,10 +351,11 @@ export default function Navbar() {
               top: menuOpen ? "50%" : "20%",
               width: "22px",
               height: "1.5px",
-              background: "white",
+              background: atTop ? "white" : "#1a1a1a",
               borderRadius: "2px",
               transform: menuOpen ? "translateY(-50%) rotate(45deg)" : "none",
-              transition: "top 0.3s ease, transform 0.3s ease",
+              transition:
+                "top 0.3s ease, transform 0.3s ease, background 0.3s ease",
             }}
           />
           <span
@@ -317,10 +365,11 @@ export default function Navbar() {
               top: menuOpen ? "50%" : "75%",
               width: "22px",
               height: "1.5px",
-              background: "white",
+              background: atTop ? "white" : "#1a1a1a", // ← এই change
               borderRadius: "2px",
               transform: menuOpen ? "translateY(-50%) rotate(-45deg)" : "none",
-              transition: "top 0.3s ease, transform 0.3s ease",
+              transition:
+                "top 0.3s ease, transform 0.3s ease, background 0.3s ease",
             }}
           />
         </button>
@@ -499,7 +548,7 @@ export default function Navbar() {
 
           {/* Bottom CTA */}
           <div style={{ padding: "12px 15px", flexShrink: 0 }}>
-            <a href="#" className="git-btn">
+            <a href="#" className="git-btn-responsive">
               <span className="git-text">Get In Touch ↗</span>
               <span className="git-hover-text">Get In Touch ↗</span>
             </a>

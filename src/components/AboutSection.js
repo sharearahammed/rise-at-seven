@@ -1,110 +1,64 @@
-import React from 'react';
+import React from "react";
+import bord from "../assets/jpg/bord.jpg";
+import { GoArrowUpRight } from "react-icons/go";
+
+const Arr = () => <GoArrowUpRight />;
 
 export default function AboutSection() {
   return (
-    <section style={{
-      background: '#f0efeb',
-      padding: '80px 40px',
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '80px',
-      alignItems: 'center',
-    }} className="about-section">
-      {/* Left */}
-      <div>
-        <p style={{
-          fontSize: 'clamp(15px, 1.6vw, 20px)',
-          fontWeight: 500,
-          lineHeight: 1.55,
-          color: 'rgba(0,0,0,0.8)',
-          maxWidth: '420px',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-        }}>
-          A global team of search-first content marketers engineering semantic relevancy &amp; category signals for both the internet and people
+    <section className="bg-[#f0efeb] xl:py-10 lg:py- p-6 flex justify-between md:px-7 px-0">
+
+      {/* Left - text (desktop only) */}
+      <div className="md:order-1 order-3 flex-1 md:flex hidden">
+        <p className="leading-tight tracking-[-0.04em] xl:text-[24px] lg:text-[18px] font-medium text-black xl:max-w-[420px] lg:max-w-[360px]">
+          A global team of search-first content marketers engineering semantic
+          relevancy &amp; category signals for both the internet and people
         </p>
       </div>
 
-      {/* Right */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '20px' }}>
-        <h2 style={{
-          fontSize: 'clamp(40px, 6vw, 88px)',
-          fontWeight: 900,
-          letterSpacing: '-0.04em',
-          lineHeight: 0.95,
-          textAlign: 'right',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-        }}>
-          Driving Demand &amp;{' '}
-          <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+      {/* Right - heading + buttons */}
+      <div className="flex flex-col items-start gap-3 md:order-2 order-1 md:flex-1 w-full">
+
+        <h2 className="px-5 xl:text-[90px] lg:text-[65px] sm:text-[50px] text-[50px] font-semibold tracking-[-0.04em] leading-[0.95]">
+          Driving Demand &amp;{" "}
+          <span className="inline-flex items-center flex-wrap justify-start">
             Discovery
-            <span style={{
-              display: 'inline-block',
-              width: 'clamp(44px, 5vw, 72px)',
-              height: 'clamp(44px, 5vw, 72px)',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              verticalAlign: 'middle',
-              marginLeft: '8px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-              flexShrink: 0,
-            }}>
-              <svg viewBox="0 0 72 72" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <rect width="72" height="72" fill="#4a4a4a" />
-                <rect x="0" y="36" width="72" height="36" fill="#3a3a3a" />
-                <text x="36" y="28" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">Google</text>
-                <rect x="8" y="32" width="56" height="2" fill="rgba(255,255,255,0.4)" rx="1" />
-                <rect x="24" y="48" width="24" height="16" rx="4" fill="#1a1a1a" />
-                <circle cx="36" cy="44" r="8" fill="#666" />
-              </svg>
+            <span className="inline-block w-[50px] h-[50px] rounded-xl overflow-hidden align-middle ml-2 shadow-[0_4px_20px_rgba(0,0,0,0.15)] shrink-0">
+              <img src={bord} alt="Discovery" className="w-full h-full object-cover" />
             </span>
           </span>
         </h2>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          {['Our Story ↗', 'Our Services ↗'].map((label) => (
-            <a
-              key={label}
-              href="#"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '10px 20px',
-                border: '1.5px solid #0a0a0a',
-                borderRadius: '100px',
-                fontSize: '13px',
-                fontWeight: 600,
-                textDecoration: 'none',
-                color: '#0a0a0a',
-                background: 'transparent',
-                transition: 'background 0.2s, color 0.2s',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.color = '#fff'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#0a0a0a'; }}
-            >
-              {label}
-            </a>
-          ))}
+
+        {/* Mobile only text */}
+        <p className="leading-tight tracking-[-0.03em] px-5 text-[18px] font-medium text-black max-w-[420px] md:hidden flex">
+          A global team of search-first content marketers engineering semantic
+          relevancy &amp; category signals for both the internet and people
+        </p>
+
+        {/* Buttons */}
+        <div className="flex md:flex-row flex-col justify-start md:w-auto w-full gap-2 px-5 py-2">
+
+          <a href="#" className="relative overflow-hidden inline-flex items-center justify-center px-6 py-3 bg-white text-[#1a1a1a] rounded-full text-[15px] font-semibold no-underline transition-all duration-200 hover:rounded-xl md:w-auto w-full group">
+            <span className="flex items-center gap-1 transition-all duration-200 group-hover:-translate-y-full group-hover:opacity-0">
+              Our Story <Arr />
+            </span>
+            <span className="flex items-center justify-center gap-1 absolute inset-0 translate-y-full opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+              Our Story <Arr />
+            </span>
+          </a>
+
+          <a href="#" className="relative overflow-hidden inline-flex items-center justify-center px-6 py-3 text-[#1a1a1a] rounded-full text-[15px] font-semibold no-underline transition-all duration-200 hover:rounded-xl md:w-auto w-full group">
+            <span className="flex items-center gap-1 transition-all duration-200 group-hover:-translate-y-full group-hover:opacity-0">
+              Our Services <Arr />
+            </span>
+            <span className="flex items-center justify-center gap-1 absolute inset-0 translate-y-full opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+              Our Services <Arr />
+            </span>
+          </a>
+
         </div>
       </div>
 
-      <style>{`
-        .about-section {
-          grid-template-columns: 1fr 1fr;
-        }
-        @media (max-width: 900px) {
-          .about-section {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-            padding: 60px 24px !important;
-          }
-          .about-section > div:last-child {
-            align-items: flex-start !important;
-          }
-          .about-section h2 {
-            text-align: left !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
