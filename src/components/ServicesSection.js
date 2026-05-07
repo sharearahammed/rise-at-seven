@@ -11,6 +11,7 @@ import { MdOutlineArrowUpward } from "react-icons/md";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionHeader from "../hook/SectionHeader";
 
 gsap.registerPlugin(SplitText);
 const SERVICES = [
@@ -64,7 +65,6 @@ export default function ServicesSection() {
   const headingRef2 = useRef(null);
   const splitRef1 = useRef(null);
   const splitRef2 = useRef(null);
-  const animRef = useRef(null);
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
 
@@ -138,46 +138,21 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="bg-[#f0efeb] px-10 py-28 max-md:px-6 max-md:py-10">
+    <section className="bg-[#f0efeb] px-10 pt-28 max-md:px-6 max-md:pt-10">
       <style>{avatarStyles}</style>
       {/* Header */}
-      <div className="flex items-center justify-between pb-6 lg:border-b border-black/15 flex-wrap gap-4">
-        <div ref={sectionRef} className="flex items-center gap-3 leading-none">
-          <span
-            ref={headingRef1}
-            className="xl:text-[100px] lg:text-[75px] text-[60px] font-semibold tracking-[-0.04em] leading-none select-none overflow-hidden inline-block"
-          >
-            Our
-          </span>
-          <span
-            ref={imageRef}
-            style={{
-              width: open ? imgSize.w : "0px",
-              height: open ? imgSize.h : "55px",
-              transition:
-                "width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            }}
-            className="relative inline-block overflow-hidden rounded-[15%] shrink-0 shadow"
-          >
-            <img
-              src={Services}
-              alt="img"
-              className="w-full h-full object-cover"
-            />
-          </span>
-          <span
-            ref={headingRef2}
-            className="xl:text-[100px] lg:text-[75px] text-[60px] font-semibold tracking-[-0.04em] leading-none select-none overflow-hidden inline-block"
-          >
-            Services
-          </span>
-        </div>
-
-        <a href="#" className="git-btn">
-          <span className="git-text">View All Services ↗</span>
-          <span className="git-hover-text">View All Services ↗</span>
-        </a>
-      </div>
+      <SectionHeader
+        sectionRef={sectionRef}
+        headingRef1={headingRef1}
+        headingRef2={headingRef2}
+        imageRef={imageRef}
+        open={open}
+        imgSize={imgSize}
+        image={Services}
+        titleStart="Our"
+        titleEnd="Services"
+        buttonText="View All Services ↗"
+      />
 
       {/* --------------------------- */}
       <div className="lg:mt-8 mt-2 grid grid-cols-2 gap-x-2 max-md:grid-cols-1">
