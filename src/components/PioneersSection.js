@@ -89,15 +89,15 @@ export default function ScrollCards() {
       gsap.registerPlugin(ScrollTrigger);
 
       // cardRefs order: [speed(0), award(1), pioneers(2)]
-      const cSpeed    = cardRefs.current[0];
-      const cAward    = cardRefs.current[1];
+      const cSpeed = cardRefs.current[0];
+      const cAward = cardRefs.current[1];
       const cPioneers = cardRefs.current[2];
 
-      // Initial stacked positions matching the image
-      gsap.set(cPioneers, { rotate: 5,  y: 0,   zIndex: 3 });
-      gsap.set(cAward,    { rotate: 10, y: 18,  zIndex: 2 });
-      gsap.set(cSpeed,    { rotate: 13, y: -8,  zIndex: 1 });
-
+      // ✅ FIX: translateX(-50%) আলাদা রাখতে হবে, তাই gsap.set এ x ব্যবহার করা যাবে না
+      // Initial stacked positions
+      gsap.set(cPioneers, { rotation: 6, y: 0, zIndex: 3 });
+      gsap.set(cAward, { rotation: 10, y: 5, zIndex: 2 });
+      gsap.set(cSpeed, { rotation: 13, y: 8, zIndex: 1 });
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sceneRef.current,
@@ -107,14 +107,37 @@ export default function ScrollCards() {
         },
       });
 
-      // Step 1: Pioneers flies up, Award moves to front
-      tl.to(cPioneers, { y: -800, rotate: -90, opacity: 1, duration: 0.3, ease: "power2.inOut" }, 0)
-        .to(cAward,    { y: 0, rotate: 0, duration: 0.2, ease: "power2.out" }, 0)
-        .to(cSpeed,    { y: 20, rotate: 4, duration: 0.4 }, 0)
+      // 1st card
+      tl.to(cPioneers, {
+        y: -800,
+        rotation: -80,
+        duration: 1,
+        ease: "power2.inOut",
+      })
 
-        // Step 2: Award flies up, Speed moves to front
-        .to(cAward, { y: -700, rotate: 0, opacity: 1, duration: 0.3, ease: "power2.inOut" }, 0.55)
-        .to(cSpeed, { y: 0, rotate: 0, duration: 0.45, ease: "power2.out" }, 0.55);
+        // 2nd card → exactly 50% of 1st
+        .to(
+          cAward,
+          {
+            y: -800,
+            rotation: -80,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "<50%",
+        )
+
+        // 3rd card → exactly 50% of 2nd
+        .to(
+          cSpeed,
+          {
+            y: 10,
+            rotation: -4,
+            duration: 0.5,
+            ease: "power2.inOut",
+          },
+          "<50%",
+        );
     };
 
     init();
@@ -128,7 +151,6 @@ export default function ScrollCards() {
     <div
       ref={sceneRef}
       style={{
-        background: "#EBEBEB",
         minHeight: "400vh",
         fontFamily: "'DM Sans', sans-serif",
         position: "relative",
@@ -144,7 +166,7 @@ export default function ScrollCards() {
         style={{
           position: "sticky",
           top: 0,
-          height: "100vh",
+          height: "90vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -154,18 +176,19 @@ export default function ScrollCards() {
       >
         <p
           style={{
-            fontSize: 13,
-            color: "#888",
+           fontSize: "1.125rem",
+            color: "#111212",
             letterSpacing: "0.06em",
-            textTransform: "uppercase",
             marginBottom: 28,
+            letterSpacing: "-0.07em",   
+            fontWeight: 500,
           }}
         >
           Legacy In The Making
         </p>
 
         {/* Card stack */}
-        <div style={{ position: "relative", width: 340, height: 520 }}>
+        <div style={{ marginTop:"128px", position: "relative", width: 340, height: 520 }}>
           {cards.map((card, i) => (
             <div
               key={card.id}
@@ -174,11 +197,12 @@ export default function ScrollCards() {
                 position: "absolute",
                 left: "50%",
                 transform: `translateX(-50%) rotate(${card.rotate}deg)`,
-                width: 500,
+                width: 482,
+                height: 468,
                 borderRadius: 22,
                 background: card.bg,
                 color: card.color,
-                padding: "32px 28px 36px",
+                padding: "32px 0px 32px 0px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -192,7 +216,7 @@ export default function ScrollCards() {
 
               <h2
                 style={{
-                  fontSize: 50,
+                  fontSize: 34,
                   fontWeight: 700,
                   lineHeight: 1.05,
                   marginBottom: 14,
@@ -206,12 +230,11 @@ export default function ScrollCards() {
                 <p
                   key={j}
                   style={{
-                    fontSize: 16,
+                    fontSize: 13.5,
                     lineHeight: 1.65,
                     opacity: 0.82,
-                    maxWidth: 400,
+                    maxWidth: 268,
                     marginTop: j > 0 ? 10 : 0,
-                    color:card.color
                   }}
                 >
                   {text}
