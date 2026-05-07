@@ -1,209 +1,181 @@
-import React, { useState } from 'react';
+import { FaFacebookF } from "react-icons/fa";
+import { BsTwitterX } from "react-icons/bs";
+import { BiLogoLinkedin } from "react-icons/bi";
+import { FaYoutube } from "react-icons/fa";
+import { RiTiktokFill } from "react-icons/ri";
+import { FaInstagram } from "react-icons/fa6";
+import { MdArrowOutward } from "react-icons/md";
+import RiseAtSevenLogo from "../assets/svg/footherlogo.svg"
 
-const NAV_COL1 = ['Services', 'Work', 'About', 'Culture', 'Meet The Risers'];
-const NAV_COL2 = ['Testimonials', 'Blog', 'Webinars', 'Careers'];
-const NAV_COL3 = ['Sheffield', 'Manchester', 'London', 'New York', 'Contact'];
-const SOCIALS = ['f', '𝕏', 'in', '▶', '♪', '📷'];
+const SocialIcon = ({ icon: Icon, href = "#" }) => (
+  <a
+    href={href}
+    className="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-[#4ECDB4] hover:text-[#4ECDB4] text-white transition-all duration-200 group"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Icon size={13} />
+    <span className="sr-only">social link</span>
+  </a>
+);
 
-function FooterLink({ children }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <li style={{ marginBottom: '10px' }}>
-      <a
-        href="#"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          fontSize: '14px',
-          fontWeight: 500,
-          color: hovered ? '#ffffff' : 'rgba(255,255,255,0.65)',
-          textDecoration: 'none',
-          transition: 'color 0.2s',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-        }}
-      >
-        {children}
-      </a>
-    </li>
-  );
-}
+const NavLink = ({ children, href = "#" }) => (
+  <a
+    href={href}
+    className="block text-white font-medium text-[15px] leading-[1.15] hover:text-[#4ECDB4] transition-colors duration-150 whitespace-nowrap"
+  >
+    {children}
+  </a>
+);
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-
   return (
-    <footer style={{ background: '#0a0a0a', color: '#ffffff', padding: '60px 40px 0' }} className="footer">
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1.4fr 1fr 1fr 1fr',
-        gap: '40px',
-        paddingBottom: '60px',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-      }} className="footer-top">
-        {/* Newsletter */}
-        <div>
-          <h4 style={{
-            fontSize: '16px',
-            fontWeight: 700,
-            marginBottom: '16px',
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-          }}>
-            Stay updated with Rise news
-          </h4>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: 'rgba(255,255,255,0.1)',
-            borderRadius: '100px',
-            overflow: 'hidden',
-            padding: '4px 4px 4px 16px',
-          }}>
-            <input
-              type="email"
-              placeholder="Your Email Address"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              style={{
-                background: 'none',
-                border: 'none',
-                outline: 'none',
-                color: '#ffffff',
-                fontSize: '14px',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                flex: 1,
-                minWidth: 0,
-              }}
-            />
-            <button style={{
-              width: '36px',
-              height: '36px',
-              background: '#a8f0d8',
-              border: 'none',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#0a0a0a',
-              fontSize: '16px',
-              transition: 'transform 0.2s',
-              flexShrink: 0,
-            }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              ↗
-            </button>
+    <footer className="bg-[#111111] rounded-2xl overflow-hidden w-full px-[28px] py-[40px]">
+      {/* Top Section */}
+      <div>
+        {/* Desktop Layout: 4 columns */}
+        <div className="hidden md:grid md:grid-cols-[1fr_auto_auto_auto] md:gap-x-12 lg:gap-x-20 xl:gap-x-28">
+          {/* Col 1: Newsletter + Socials */}
+          <div className="flex flex-col gap-5 min-w-[220px]">
+            <p className="text-white font-semibold text-[17px] leading-snug">
+              Stay updated with Rise news
+            </p>
+            <div className="relative flex items-center">
+              <input
+                type="email"
+                placeholder="Your Email Address"
+                className="w-full bg-[#1e1e1e] text-white placeholder-white/40 text-sm rounded-full py-3 pl-5 pr-14 outline-none border border-transparent focus:border-[#4ECDB4] transition-colors"
+              />
+              <button className="absolute right-1.5 flex items-center justify-center w-9 h-9 rounded-full bg-[#4ECDB4] hover:bg-[#3ab89e] transition-colors">
+                <MdArrowOutward size={17} className="text-black" />
+              </button>
+            </div>
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <SocialIcon icon={FaFacebookF} />
+              <SocialIcon icon={BsTwitterX} />
+              <SocialIcon icon={BiLogoLinkedin} />
+              <SocialIcon icon={FaYoutube} />
+              <SocialIcon icon={RiTiktokFill} />
+              <SocialIcon icon={FaInstagram} />
+            </div>
           </div>
 
-          {/* Social icons */}
-          <div style={{ display: 'flex', gap: '8px', marginTop: '18px', flexWrap: 'wrap' }}>
-            {SOCIALS.map((icon) => (
-              <a key={icon} href="#" style={{
-                width: '32px',
-                height: '32px',
-                border: '1.5px solid rgba(255,255,255,0.25)',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '12px',
-                fontWeight: 700,
-                color: 'rgba(255,255,255,0.65)',
-                textDecoration: 'none',
-                transition: 'border-color 0.2s, color 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#fff'; e.currentTarget.style.color = '#fff'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; }}
-              >
-                {icon}
-              </a>
-            ))}
+          {/* Col 2: Primary nav */}
+          <div className="flex flex-col gap-3 pt-1">
+            <NavLink>Services</NavLink>
+            <NavLink>Work</NavLink>
+            <NavLink>About</NavLink>
+            <NavLink>Culture</NavLink>
+            <NavLink>Meet The Risers</NavLink>
+          </div>
+
+          {/* Col 3: Secondary nav */}
+          <div className="flex flex-col gap-3 pt-1">
+            <NavLink>Testimonials</NavLink>
+            <NavLink>Blog &amp; Resources</NavLink>
+            <NavLink>Webinars</NavLink>
+            <NavLink>Careers</NavLink>
+          </div>
+
+          {/* Col 4: Locations */}
+          <div className="flex flex-col gap-3 pt-1">
+            <NavLink>Sheffield</NavLink>
+            <NavLink>Manchester</NavLink>
+            <NavLink>London</NavLink>
+            <NavLink>New York</NavLink>
+            <NavLink>Contact</NavLink>
           </div>
         </div>
 
-        {/* Nav columns */}
-        {[NAV_COL1, NAV_COL2, NAV_COL3].map((col, i) => (
-          <nav key={i}>
-            <ul style={{ listStyle: 'none' }}>
-              {col.map(item => <FooterLink key={item}>{item}</FooterLink>)}
-            </ul>
-          </nav>
-        ))}
-      </div>
+        {/* Mobile Layout */}
+        <div className="flex md:hidden flex-col gap-8">
+          {/* Newsletter */}
+          <div className="flex flex-col gap-4">
+            <p className="text-white font-semibold text-[18px] leading-snug">
+              Stay updated with Rise news
+            </p>
+            <div className="relative flex items-center">
+              <input
+                type="email"
+                placeholder="Your Email Address"
+                className="w-full bg-[#1e1e1e] text-white placeholder-white/40 text-sm rounded-full py-3 pl-5 pr-14 outline-none border border-transparent focus:border-[#4ECDB4] transition-colors"
+              />
+              <button className="absolute right-1.5 flex items-center justify-center w-9 h-9 rounded-full bg-[#4ECDB4] hover:bg-[#3ab89e] transition-colors">
+                <MdArrowOutward size={17} className="text-black" />
+              </button>
+            </div>
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <SocialIcon icon={FaFacebookF} />
+              <SocialIcon icon={BsTwitterX} />
+              <SocialIcon icon={BiLogoLinkedin} />
+              <SocialIcon icon={FaYoutube} />
+              <SocialIcon icon={RiTiktokFill} />
+              <SocialIcon icon={FaInstagram} />
+            </div>
+          </div>
 
-      {/* Brand */}
-      <div style={{ padding: '30px 0', overflow: 'hidden' }}>
-        <div style={{
-          fontSize: 'clamp(60px, 10vw, 150px)',
-          fontWeight: 900,
-          letterSpacing: '-0.05em',
-          color: '#ffffff',
-          whiteSpace: 'nowrap',
-          display: 'inline-flex',
-          alignItems: 'flex-start',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-          lineHeight: 1,
-        }}>
-          Rise at Seven
-          <span style={{
-            fontSize: '0.22em',
-            border: '2px solid #ffffff',
-            borderRadius: '50%',
-            width: '0.85em',
-            height: '0.85em',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: '4px',
-            marginTop: '0.12em',
-          }}>
-            ®
-          </span>
+          {/* Nav grid: 2 cols */}
+          <div className="grid grid-cols-2 gap-x-4">
+            {/* Left col */}
+            <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+              <NavLink>Services</NavLink>
+              <NavLink>Work</NavLink>
+              <NavLink>About</NavLink>
+              <NavLink>Culture</NavLink>
+              <NavLink>Meet The Risers</NavLink>
+            </div>
+            {/* Right col */}
+            <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+              <NavLink>Testimonials</NavLink>
+              <NavLink>Blog &amp; Resources</NavLink>
+              <NavLink>Webinars</NavLink>
+              <NavLink>Careers</NavLink>
+            </div>
+          </div>
+
+          {/* Locations */}
+          <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+            <NavLink>Sheffield</NavLink>
+            <NavLink>Manchester</NavLink>
+            <NavLink>London</NavLink>
+            <NavLink>New York</NavLink>
+            <NavLink>Contact</NavLink>
+          </div>
         </div>
       </div>
 
-      {/* Bottom */}
-      <div style={{
-        borderTop: '1px solid rgba(255,255,255,0.1)',
-        padding: '16px 0 20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        fontSize: '11px',
-        color: 'rgba(255,255,255,0.3)',
-        flexWrap: 'wrap',
-        gap: '8px',
-      }}>
-        <span>
-          © 2025 Rise at Seven Ltd. All rights reserved &nbsp;•&nbsp;
-          Company Number 11955187 &nbsp;•&nbsp;
-          VAT Registered GB 322402945 &nbsp;•&nbsp;
-          <a href="#" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>Privacy Policy</a>
-          &nbsp;•&nbsp;
-          <a href="#" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>Terms &amp; conditions</a>
-        </span>
-        <span>Website MadeByShape</span>
+      {/* Big Brand Name */}
+      <div className="mt-6 px-2 md:px-4 overflow-hidden leading-none select-none">
+        <img
+          src={RiseAtSevenLogo}
+          alt="Rise at Seven"
+          className="w-full h-auto object-contain"
+        />
       </div>
 
-      <style>{`
-        .footer-top {
-          grid-template-columns: 1.4fr 1fr 1fr 1fr;
-        }
-        @media (max-width: 900px) {
-          .footer {
-            padding: 48px 24px 0 !important;
-          }
-          .footer-top {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-        @media (max-width: 600px) {
-          .footer-top {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+      {/* Bottom Bar */}
+      <div className="mt-4 px-6 md:px-10 lg:px-12 pb-5 flex flex-col md:flex-row md:items-center md:justify-between gap-1">
+        <p className="text-white/40 text-[11px] leading-relaxed">
+          © 2025 Rise at Seven Ltd. All rights reserved &nbsp;•&nbsp; Company
+          Number 11955187 &nbsp;•&nbsp; VAT Registered GB 322402945
+          &nbsp;•&nbsp;{" "}
+          <a href="#" className="hover:text-white/70 transition-colors">
+            Privacy Policy
+          </a>{" "}
+          &nbsp;•&nbsp;{" "}
+          <a href="#" className="hover:text-white/70 transition-colors">
+            Terms &amp; conditions
+          </a>
+        </p>
+        <p className="text-white/40 text-[11px] md:text-right">
+          Website{" "}
+          <a href="#" className="hover:text-white/70 transition-colors">
+            MadeByShape
+          </a>
+        </p>
+      </div>
     </footer>
   );
 }

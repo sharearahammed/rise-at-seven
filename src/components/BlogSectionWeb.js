@@ -67,8 +67,7 @@ function ArticleCard({ article }) {
   const { cursorRef, containerRef, onMouseEnter, onMouseLeave, onMouseMove } =
     useCursor();
 
-  // ── "web-" prefix → no conflict with BlogSectionMobile's "mob-clip-" ids ──
-  const uid = `web-clip-${article.id}`;
+  const uid = `clip-${article.id}`;
 
   useEffect(() => {
     const path = morphPathRef.current;
@@ -126,12 +125,15 @@ function ArticleCard({ article }) {
     >
       {/* Custom cursor */}
       <CursorDot ref={cursorRef} color="#B2F6E3" icon="arrow" size={120} />
-      <div className="relative xl:w-[603px] lg:w-[314px] xl:h-[603px] lg:h-[314px] overflow-hidden rounded-2xl">
+
+      {/* ── Image container — fully responsive ── */}
+      <div className="relative w-full aspect-square overflow-hidden rounded-2xl">
+
         {/* ── Original image ── */}
         <img
           src={article.image}
           alt={article.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-10"
           style={{ zIndex: 1 }}
         />
 
@@ -152,7 +154,7 @@ function ArticleCard({ article }) {
           </defs>
         </svg>
 
-        {/* ── Blurred image layer — same image, clipped by morphing shape ── */}
+        {/* ── Blurred image layer ── */}
         <div
           style={{
             position: "absolute",
@@ -162,7 +164,6 @@ function ArticleCard({ article }) {
             WebkitClipPath: `url(#${uid})`,
           }}
         >
-          {/* blurred copy of same image */}
           <img
             src={article.image}
             alt=""
@@ -173,7 +174,6 @@ function ArticleCard({ article }) {
               transform: "scale(1.3)",
             }}
           />
-          {/* white tint overlay */}
           <div
             style={{
               position: "absolute",
@@ -186,7 +186,7 @@ function ArticleCard({ article }) {
         {/* ── Tag ── */}
         {article.tag && (
           <span
-            className={`absolute top-3 left-3 text-[14px] font-bold px-3 py-1 rounded-full bg-white/35 text-white`}
+            className="absolute top-3 left-3 text-[14px] font-bold px-3 py-1 rounded-full bg-white/35 text-white"
             style={{ zIndex: 10 }}
           >
             {article.tag}
@@ -203,7 +203,6 @@ function ArticleCard({ article }) {
               alt={article.author}
               className="w-5 h-5 rounded-full object-cover"
             />
-
             {article.author}
           </span>
           <span className="text-[14px] font-semibold flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-full">
@@ -212,7 +211,7 @@ function ArticleCard({ article }) {
           </span>
         </div>
 
-        <h2 className="xl:text-[30px] lg:text-[24px] font-semibold leading-[0.95] tracking-[-0.07em] transition-colors duration-300">
+        <h2 className="xl:text-[30px] lg:text-[24px] md:text-[22px] text-[20px] font-semibold leading-[0.95] tracking-[-0.07em] transition-colors duration-300">
           {article.title}
         </h2>
       </div>
@@ -221,7 +220,7 @@ function ArticleCard({ article }) {
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
-export default function BlogSectionWeb() {
+export default function WhatsNew() {
   const [open, setOpen] = useState(false);
   const [imgSize, setImgSize] = useState({ w: "0px", h: "60px" });
   const headingRef1 = useRef(null);
@@ -298,7 +297,7 @@ export default function BlogSectionWeb() {
   }, []);
 
   return (
-    <section className="bg-[#f0ede8] min-h-screen px-6 py-10 font-sans">
+    <section className="px-6 py-10 font-sans">
       {/* Header */}
       <div className="mb-9">
         <SectionHeader

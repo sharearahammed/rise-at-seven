@@ -7,11 +7,11 @@ import AboutSection from './components/AboutSection';
 import FeaturedWork from './components/FeaturedWork';
 import ServicesSection from './components/ServicesSection';
 import PioneersSection from './components/PioneersSection';
-import ReadySection from './components/ReadySection';
 import Footer from './components/Footer';
 import "./index.css";
 import PageTransition from './components/PageTransition';
 import BlogSection from './components/BlogSection';
+import ReadyToRiseMarqueeSection from './components/ReadyToRiseMarqueeSection';
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
         <ServicesSection />
         <PioneersSection />
         <BlogSection />
-        <ReadySection />
+        <ReadyToRiseMarqueeSection />
       </main>
       <Footer />
     </div>
