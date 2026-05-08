@@ -38,7 +38,7 @@ const NAV_LINKS = [
   { label: "Webinar", hasChevron: false },
 ];
 
-const FONT = "'Plus Jakarta Sans', sans-serif";
+const FONT = "var(--font-sans-primary)";
 const DARK = "#1a1a1a";
 const WHITE = "#ffffff";
 const NAV_H = 64;
@@ -104,7 +104,6 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .ras-nav {

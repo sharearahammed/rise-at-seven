@@ -152,15 +152,10 @@ export default function ScrollCards() {
       ref={sceneRef}
       style={{
         minHeight: "200vh",
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "inherit",
         position: "relative",
       }}
     >
-      <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"
-        rel="stylesheet"
-      />
-
       {/* Sticky viewport */}
       <div
         style={{

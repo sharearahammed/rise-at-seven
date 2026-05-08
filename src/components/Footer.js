@@ -1,20 +1,24 @@
-import { FaFacebookF } from "react-icons/fa";
+import { FaFacebookF, FaYoutube } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import { BiLogoLinkedin } from "react-icons/bi";
-import { FaYoutube } from "react-icons/fa";
 import { RiTiktokFill } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa6";
 import { MdArrowOutward } from "react-icons/md";
-import RiseAtSevenLogo from "../assets/svg/footherlogo.svg"
+import RiseAtSevenLogo from "../assets/svg/footherlogo.svg";
 
 const SocialIcon = ({ icon: Icon, href = "#" }) => (
   <a
     href={href}
-    className="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-[#4ECDB4] hover:text-[#4ECDB4] text-white transition-all duration-200 group"
+    className="flex items-center justify-center h-5 w-[46px] rounded-full bg-white border border-white text-black transition-all duration-200
+    md:w-[46px] md:h-5 md:gap-1
+    hover:border-[#4ECDB4] hover:text-[#4ECDB4]"
     target="_blank"
     rel="noopener noreferrer"
   >
-    <Icon size={13} />
+    <span className="flex items-center gap-1">
+      <Icon size={12} />
+      <MdArrowOutward size={10} />
+    </span>
     <span className="sr-only">social link</span>
   </a>
 );
@@ -22,36 +26,46 @@ const SocialIcon = ({ icon: Icon, href = "#" }) => (
 const NavLink = ({ children, href = "#" }) => (
   <a
     href={href}
-    className="block text-white font-medium text-[15px] leading-[1.15] hover:text-[#4ECDB4] transition-colors duration-150 whitespace-nowrap"
+    className="group inline-flex w-fit text-white text-[18px] leading-[1.3] transition-colors duration-150 whitespace-nowrap
+    md:text-[22px] md:font-semibold lg:text-[23px] xl:text-[24px] font-bold"
   >
-    {children}
+    <span className="relative block overflow-hidden">
+      <span className="block transition-transform duration-300 ease-out group-hover:-translate-y-full">
+        {children}
+      </span>
+      <span className="absolute left-0 top-0 block translate-y-full text-[#B2F6E3] transition-transform duration-300 ease-out group-hover:translate-y-0">
+        {children}
+      </span>
+    </span>
   </a>
 );
 
 export default function Footer() {
   return (
-    <footer className="bg-[#111111] rounded-2xl overflow-hidden w-full px-[28px] py-[40px]">
-      {/* Top Section */}
+    <footer className="bg-[#111111] rounded-3xl overflow-hidden w-full px-[18px] pb-7 pt-[50px] md:pt-10 md:px-8 md:py-10">
       <div>
-        {/* Desktop Layout: 4 columns */}
-        <div className="hidden md:grid md:grid-cols-[1fr_auto_auto_auto] md:gap-x-12 lg:gap-x-20 xl:gap-x-28">
-          {/* Col 1: Newsletter + Socials */}
-          <div className="flex flex-col gap-5 min-w-[220px]">
-            <p className="text-white font-semibold text-[17px] leading-snug">
+        {/* Desktop / Tablet Layout: md, lg, xl */}
+        <div className="hidden lg:grid md:grid-cols-[minmax(420px,1fr)_minmax(250px,0.48fr)_minmax(280px,0.48fr)_minmax(240px,0.35fr)] lg:grid-cols-[minmax(560px,1fr)_minmax(300px,0.45fr)_minmax(330px,0.45fr)_minmax(260px,0.35fr)] xl:grid-cols-[minmax(620px,1fr)_minmax(340px,0.45fr)_minmax(360px,0.45fr)_minmax(280px,0.35fr)] md:gap-x-10 lg:gap-x-12 xl:gap-x-14">
+          <div className="flex flex-col gap-5 min-w-[360px]">
+            <p className="text-white font-semibold text-[26px] lg:text-[28px] xl:text-[29px] leading-snug">
               Stay updated with Rise news
             </p>
-            <div className="relative flex items-center">
+
+            <div className="relative flex items-center max-w-[660px]">
               <input
                 type="email"
                 placeholder="Your Email Address"
-                className="w-full bg-[#1e1e1e] text-white placeholder-white/40 text-sm rounded-full py-3 pl-5 pr-14 outline-none border border-transparent focus:border-[#4ECDB4] transition-colors"
+                className="w-full h-[70px] bg-[#2a2a2a] text-white placeholder-white/45 text-[22px] font-semibold rounded-full pl-6 pr-20 outline-none border border-transparent focus:border-[#343535] focus:ring-[2px] focus:ring-[#343535] transition-all duration-300"
               />
-              <button className="absolute right-1.5 flex items-center justify-center w-9 h-9 rounded-full bg-[#4ECDB4] hover:bg-[#3ab89e] transition-colors">
-                <MdArrowOutward size={17} className="text-black" />
+              <button className="absolute right-2 flex items-center justify-center w-[52px] h-[52px] rounded-full bg-[#B2F6E3] hover:bg-[#FFFFFF] transition-colors group">
+                <MdArrowOutward
+                  size={24}
+                  className="text-black transition-transform duration-300 group-hover:rotate-[90deg]"
+                />
               </button>
             </div>
-            {/* Social Icons */}
-            <div className="flex items-center gap-2 flex-wrap">
+
+            <div className="flex items-center gap-1.5 flex-wrap">
               <SocialIcon icon={FaFacebookF} />
               <SocialIcon icon={BsTwitterX} />
               <SocialIcon icon={BiLogoLinkedin} />
@@ -61,8 +75,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 2: Primary nav */}
-          <div className="flex flex-col gap-3 pt-1">
+          <div className="flex flex-col gap-3 border-l border-white/20 pl-3">
             <NavLink>Services</NavLink>
             <NavLink>Work</NavLink>
             <NavLink>About</NavLink>
@@ -70,16 +83,14 @@ export default function Footer() {
             <NavLink>Meet The Risers</NavLink>
           </div>
 
-          {/* Col 3: Secondary nav */}
-          <div className="flex flex-col gap-3 pt-1">
+          <div className="flex flex-col gap-3 border-l border-white/20 pl-3">
             <NavLink>Testimonials</NavLink>
             <NavLink>Blog &amp; Resources</NavLink>
             <NavLink>Webinars</NavLink>
             <NavLink>Careers</NavLink>
           </div>
 
-          {/* Col 4: Locations */}
-          <div className="flex flex-col gap-3 pt-1">
+          <div className="flex flex-col gap-3 border-l border-white/20 pl-3">
             <NavLink>Sheffield</NavLink>
             <NavLink>Manchester</NavLink>
             <NavLink>London</NavLink>
@@ -89,23 +100,26 @@ export default function Footer() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="flex md:hidden flex-col gap-8">
-          {/* Newsletter */}
+        <div className="flex lg:hidden flex-col gap-8">
           <div className="flex flex-col gap-4">
-            <p className="text-white font-semibold text-[18px] leading-snug">
+            <p className="text-white font-semibold text-[24px] leading-snug">
               Stay updated with Rise news
             </p>
+
             <div className="relative flex items-center">
               <input
                 type="email"
                 placeholder="Your Email Address"
-                className="w-full bg-[#1e1e1e] text-white placeholder-white/40 text-sm rounded-full py-3 pl-5 pr-14 outline-none border border-transparent focus:border-[#4ECDB4] transition-colors"
+                className="w-full bg-[#1e1e1e] text-white placeholder-white/40 text-[20px] rounded-full py-3 pl-5 pr-14 outline-none border border-transparent focus:border-[#4ECDB4] transition-colors"
               />
-              <button className="absolute right-1.5 flex items-center justify-center w-9 h-9 rounded-full bg-[#4ECDB4] hover:bg-[#3ab89e] transition-colors">
-                <MdArrowOutward size={17} className="text-black" />
+              <button className="absolute right-1.5 flex items-center justify-center w-9 h-9 rounded-full bg-[#B2F6E3] hover:bg-[#FFFFFF] transition-colors group">
+                <MdArrowOutward
+                  size={17}
+                  className="text-black transition-transform duration-300 group-hover:rotate-[90deg]"
+                />
               </button>
             </div>
-            {/* Social Icons */}
+
             <div className="flex items-center gap-2 flex-wrap">
               <SocialIcon icon={FaFacebookF} />
               <SocialIcon icon={BsTwitterX} />
@@ -116,18 +130,16 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nav grid: 2 cols */}
-          <div className="grid grid-cols-2 gap-x-4">
-            {/* Left col */}
-            <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+          <div className="grid grid-cols-2 gap-x-3 mt-8">
+            <div className="flex flex-col gap-2 border-l border-white/15 pl-4">
               <NavLink>Services</NavLink>
               <NavLink>Work</NavLink>
               <NavLink>About</NavLink>
               <NavLink>Culture</NavLink>
               <NavLink>Meet The Risers</NavLink>
             </div>
-            {/* Right col */}
-            <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+
+            <div className="flex flex-col gap-2 border-l border-white/15 pl-4">
               <NavLink>Testimonials</NavLink>
               <NavLink>Blog &amp; Resources</NavLink>
               <NavLink>Webinars</NavLink>
@@ -135,8 +147,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Locations */}
-          <div className="flex flex-col gap-3 border-l border-white/15 pl-4">
+          <div className="flex flex-col gap-2 border-l border-white/15 pl-4">
             <NavLink>Sheffield</NavLink>
             <NavLink>Manchester</NavLink>
             <NavLink>London</NavLink>
@@ -146,8 +157,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Big Brand Name */}
-      <div className="mt-6 px-2 md:px-4 overflow-hidden leading-none select-none">
+      <div className="my-16 md:my-0 md:mt-36 md:px-0 overflow-hidden leading-none select-none">
         <img
           src={RiseAtSevenLogo}
           alt="Rise at Seven"
@@ -155,24 +165,32 @@ export default function Footer() {
         />
       </div>
 
-      {/* Bottom Bar */}
-      <div className="mt-4 px-6 md:px-10 lg:px-12 pb-5 flex flex-col md:flex-row md:items-center md:justify-between gap-1">
-        <p className="text-white/40 text-[11px] leading-relaxed">
+      <div className="mt-4 md:mt-8 md:px-0 md:pb-1 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+        <p className="text-white text-[11px] md:text-[12px] leading-[2.2] md:leading-[2]">
           © 2025 Rise at Seven Ltd. All rights reserved &nbsp;•&nbsp; Company
           Number 11955187 &nbsp;•&nbsp; VAT Registered GB 322402945
           &nbsp;•&nbsp;{" "}
-          <a href="#" className="hover:text-white/70 transition-colors">
+          <a
+            href="#"
+            className="relative inline-block after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+          >
             Privacy Policy
           </a>{" "}
           &nbsp;•&nbsp;{" "}
-          <a href="#" className="hover:text-white/70 transition-colors">
+          <a
+            href="#"
+            className="relative inline-block after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+          >
             Terms &amp; conditions
           </a>
         </p>
-        <p className="text-white/40 text-[11px] md:text-right">
-          Website{" "}
-          <a href="#" className="hover:text-white/70 transition-colors">
-            MadeByShape
+
+        <p className="text-white text-[11px] md:text-[12px] md:text-right">
+          <a
+            href="#"
+            className="relative inline-block after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Website MadeByShape
           </a>
         </p>
       </div>

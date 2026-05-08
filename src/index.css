@@ -2,8 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "saans";
+  src: url("./assets/fonts/SaansLight.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "saans";
+  src: url("./assets/fonts/SaansRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "saans";
+  src: url("./assets/fonts/SaansMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "saans";
+  src: url("./assets/fonts/SaansSemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "saans";
+  src: url("./assets/fonts/SaansBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
+  :root {
+    --font-sans-primary: "saans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  html,
+  body {
+    font-family: var(--font-sans-primary);
+  }
+
   body {
     @apply font-sans;
+  }
+
+  #root {
+    font-family: inherit;
   }
 }

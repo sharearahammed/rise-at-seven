@@ -29,7 +29,9 @@ export default function App() {
         <BlogSection />
         <ReadyToRiseMarqueeSection />
       </main>
-      <Footer />
+      <div className='m-[8px]'>
+        <Footer />
+      </div>
     </div>
   );
 }

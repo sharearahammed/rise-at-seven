@@ -227,7 +227,7 @@ export default function FeaturedWork() {
                         className="font-black tracking-[-0.03em] text-white leading-[1.15] whitespace-nowrap"
                         style={{
                           fontSize: "clamp(28px, 3.8vw, 58px)",
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          fontFamily: "inherit",
                         }}
                       >
                         {work.name}
@@ -311,7 +311,7 @@ export default function FeaturedWork() {
                           fontSize: "clamp(18px, 2vw, 28px)",
                           fontWeight: 800,
                           lineHeight: 1.2,
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          fontFamily: "inherit",
                           color: hover.textColor,
                           opacity: isHovered ? 1 : 0,
                           transform: isHovered

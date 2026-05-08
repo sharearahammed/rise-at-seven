@@ -10,7 +10,7 @@
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-sans-primary);
   width: fit-content;
   transition: border-radius 0.14s ease;
 }

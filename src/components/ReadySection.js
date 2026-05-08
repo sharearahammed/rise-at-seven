@@ -16,7 +16,7 @@ export default function ReadySection() {
           color: '#0a0a0a',
           animation: 'readyMarquee 12s linear infinite',
           paddingRight: '80px',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'inherit',
         }}>
           Ready to Rise&nbsp;&nbsp;&nbsp;Ready to Rise&nbsp;&nbsp;&nbsp;
         </span>

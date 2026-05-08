@@ -6,24 +6,27 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Rise at Seven – We Create Category Leaders on every searchable platform" />
     <title>Rise at Seven</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/fonts/SaansLight.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SaansRegular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SaansMedium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SaansSemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SaansBold.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; }
       body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: var(--font-sans-primary);
         background: #ffffff;
         color: #0a0a0a;
         overflow-x: hidden;
       }
       :root {
+        --font-sans-primary: "saans", ui-sans-serif, system-ui, sans-serif;
         --black: #0a0a0a;
         --white: #ffffff;
         --off-white: #f0efeb;
         --mint: #a8f0d8;
-        --font: 'Plus Jakarta Sans', sans-serif;
+        --font: var(--font-sans-primary);
       }
     </style>
   </head>

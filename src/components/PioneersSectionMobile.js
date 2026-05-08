@@ -154,7 +154,7 @@ export default function ScrollCards() {
   return (
     <div
       style={{
-        fontFamily: "sans-serif",
+        fontFamily: "inherit",
         overflow: "hidden",
         marginTop:80
       }}
