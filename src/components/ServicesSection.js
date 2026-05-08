@@ -12,8 +12,9 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "../hook/SectionHeader";
-
-gsap.registerPlugin(SplitText);
+import algorithm from "../assets/png/algorithm.png";
+import consumer from "../assets/jpg/chasing.jpg";
+gsap.registerPlugin(SplitText, ScrollTrigger);
 const SERVICES = [
   { label: "Digital PR", image: DigitalPR, borderWidth: "75%" },
   {
@@ -30,6 +31,17 @@ const SERVICES = [
   { label: "Data & Insights", image: DataInsights, borderWidth: "75%" },
   { label: "Onsite SEO", image: OnsiteSEO, borderWidth: "75%" },
 ];
+
+const MARQUEE_ITEMS = Array.from(
+  { length: 3 },
+  () => [
+    { type: "text", value: "Chasing" },
+    { type: "image", value: consumer },
+    { type: "text", value: "Consumers" },
+    { type: "image", value: algorithm },
+    { type: "text", value: "Not Algorithms" },
+  ]
+);
 
 const avatarStyles = `
   .avatar-wrapper {
@@ -67,6 +79,12 @@ export default function ServicesSection() {
   const splitRef2 = useRef(null);
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
+  const marqueeRef = useRef(null);
+  const marqueeTrackRef = useRef(null);
+  const marqueeX = useRef(0);
+  const marqueeDirection = useRef(-1);
+  const marqueeSpeed = useRef(70);
+  const marqueeIdleTimer = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -134,6 +152,66 @@ export default function ServicesSection() {
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    const track = marqueeTrackRef.current;
+
+    if (!marquee || !track) return;
+
+    const wrapX = () => {
+      const halfWidth = track.scrollWidth / 2;
+
+      if (!halfWidth) return;
+
+      if (marqueeX.current <= -halfWidth) {
+        marqueeX.current += halfWidth;
+      }
+
+      if (marqueeX.current >= 0) {
+        marqueeX.current -= halfWidth;
+      }
+    };
+
+    const tick = () => {
+      const delta = gsap.ticker.deltaRatio(60);
+
+      marqueeSpeed.current += (70 - marqueeSpeed.current) * 0.04;
+      marqueeX.current +=
+        marqueeDirection.current * marqueeSpeed.current * (delta / 60);
+
+      wrapX();
+      gsap.set(track, { x: marqueeX.current });
+    };
+
+    const trigger = ScrollTrigger.create({
+      trigger: marquee,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        marqueeDirection.current = self.direction === -1 ? 1 : -1;
+        marqueeSpeed.current = 240;
+
+        if (marqueeIdleTimer.current) {
+          clearTimeout(marqueeIdleTimer.current);
+        }
+
+        marqueeIdleTimer.current = setTimeout(() => {
+          marqueeDirection.current = -1;
+        }, self.direction === -1 ? 180 : 320);
+      },
+    });
+
+    gsap.ticker.add(tick);
+
+    return () => {
+      gsap.ticker.remove(tick);
+      if (marqueeIdleTimer.current) {
+        clearTimeout(marqueeIdleTimer.current);
+      }
+      trigger.kill();
     };
   }, []);
 
@@ -251,20 +329,70 @@ export default function ServicesSection() {
         </a>
       </div>
 
-      {/* Marquee */}
-      <div className="overflow-hidden mt-16 whitespace-nowrap">
-        <div className="animate-marquee text-[clamp(60px,10vw,140px)] font-black tracking-[-0.05em]">
-          Not Chasing Algorithms, Chasing Consumers
+      <div
+        ref={marqueeRef}
+        className="-mx-10 mt-16 overflow-hidden whitespace-nowrap py-3 max-md:-mx-6 lg:mt-24"
+      >
+        <div ref={marqueeTrackRef} className="services-marquee-track flex w-max">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="services-marquee-group">
+              {item.map((part, index) =>
+                part.type === "text" ? (
+                  <span key={`${i}-${index}`}>{part.value}</span>
+                ) : (
+                  <img
+                    key={`${i}-${index}`}
+                    src={part.value}
+                    alt=""
+                    aria-hidden="true"
+                    className="services-marquee-image"
+                  />
+                )
+              )}
+            </span>
+          ))}
         </div>
       </div>
 
       <style>{`
-        .animate-marquee {
-          animation: marquee 18s linear infinite;
+        .services-marquee-track {
+          transform: translate3d(0, 0, 0);
+          will-change: transform;
         }
-        @keyframes marquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
+
+        .services-marquee-group {
+          align-items: center;
+          display: flex;
+          flex-shrink: 0;
+          gap: 0.18em;
+          padding-right: 0.18em;
+          color: #000;
+          font-size: clamp(72px, 13vw, 220px);
+          font-weight: 500;
+          letter-spacing: 0;
+        }
+
+        .services-marquee-image {
+          width: 143px;
+          height: 143px;
+          display: inline-block;
+          flex-shrink: 0;
+          object-fit: cover;
+          border-radius: 18px;
+          transform: translateY(0.03em);
+        }
+
+        @media (max-width: 767px) {
+          .services-marquee-group {
+            gap: 0.16em;
+            font-size: clamp(56px, 19vw, 96px);
+          }
+
+          .services-marquee-image {
+            width: clamp(86px, 28vw, 143px);
+            height: clamp(86px, 28vw, 143px);
+            border-radius: 14px;
+          }
         }
       `}</style>
     </section>

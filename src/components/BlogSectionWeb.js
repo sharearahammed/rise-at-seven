@@ -220,7 +220,7 @@ function ArticleCard({ article }) {
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
-export default function WhatsNew() {
+export default function WhatsNew({ ref }) {
   const [open, setOpen] = useState(false);
   const [imgSize, setImgSize] = useState({ w: "0px", h: "60px" });
   const headingRef1 = useRef(null);
@@ -297,7 +297,7 @@ export default function WhatsNew() {
   }, []);
 
   return (
-    <section className="px-6 py-10 font-sans">
+    <section ref={ref} className="px-6 py-10 font-sans">
       {/* Header */}
       <div className="mb-9">
         <SectionHeader

@@ -375,8 +375,8 @@ export default function BlogSectionMobile() {
   }, []);
 
   return (
-    <section className="px-6 py-10 font-sans">
-      <div className="mb-9">
+    <section className="px- py-10 font-sans">
+      <div className="mb-9 px-8">
         <SectionHeader
           sectionRef={sectionRef}
           headingRef1={headingRef1}

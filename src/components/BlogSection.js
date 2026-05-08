@@ -1,7 +1,7 @@
 import BlogSectionMobile from "./BlogSectionMobile";
 import BlogSectionWeb from "./BlogSectionWeb";
 
-export default function BlogSection() {
+export default function BlogSection({ ref }) {
   return (
     <>
       <div className="block lg:hidden">
@@ -9,7 +9,7 @@ export default function BlogSection() {
       </div>
 
       <div className="hidden lg:block">
-        <BlogSectionWeb />
+        <BlogSectionWeb ref={ref} />
       </div>
     </>
   );

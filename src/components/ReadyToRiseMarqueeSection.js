@@ -10,66 +10,71 @@ export default function ReadyToRiseMarqueeSection() {
 
   const text = "Ready to Rise at Seven?";
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const textEl = textRef.current;
+useEffect(() => {
+  const section = sectionRef.current;
+  const textEl = textRef.current;
 
-    if (!section || !textEl) return;
+  if (!section || !textEl) return;
 
-    const letters = textEl.querySelectorAll(".letter");
+  const letters = textEl.querySelectorAll(".letter");
 
-    const ctx = gsap.context(() => {
-      gsap.set(textEl, {
-        y: () => window.innerHeight * 0.24,
-        x: () => window.innerWidth + 40,
-      });
+  const ctx = gsap.context(() => {
+    const sectionHeight = section.offsetHeight;
+    const textWidth = textEl.offsetWidth;
 
-      gsap.to(textEl, {
-        x: () => -(textEl.offsetWidth - window.innerWidth + 1000),
-        y: () =>
-          Math.min(
-            window.innerHeight * 0.56,
-            window.innerHeight - textEl.offsetHeight * 0.55,
-          ),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 35%",
-          end: () =>
-            `+=${textEl.offsetWidth - window.innerWidth + window.innerHeight * 0.75}`,
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
+    gsap.set(textEl, {
+      y: sectionHeight * 0.44,
+      x: window.innerWidth + 40,
+    });
 
-      gsap.set(letters, {
-        yPercent: -100,
-        rotate: 10,
-        transformOrigin: "50% 100%",
-      });
+    // MAIN TEXT ANIMATION (FIXED)
+    gsap.to(textEl, {
+      x: -(textWidth - window.innerWidth + 300),
+      y: Math.min(
+        sectionHeight * 0.4,
+        sectionHeight - textEl.offsetHeight * 0.35
+      ),
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: () => `+=${textWidth + 800}`,
+        scrub: true,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
 
-      gsap.to(letters, {
-        yPercent: 0,
-        rotate: 0,
-        ease: "back.inOut(4)",
-        stagger: 0.35,
-        duration: 2.5,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 42%",
-          end: () => `+=${textEl.offsetWidth - window.innerWidth + 500}`,
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-    }, section);
+    // LETTER ANIMATION (UNCHANGED, only fixed timing)
+    gsap.set(letters, {
+      yPercent: -40,
+      rotate: 10,
+      transformOrigin: "50% 100%",
+    });
 
-    return () => ctx.revert();
-  }, []);
+    gsap.to(letters, {
+      yPercent: 0,
+      rotate: 0,
+      ease: "back.inOut(4)",
+      stagger: 0.35,
+      duration: 2.5,
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: () => `+=${textWidth + 800}`,
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  }, section);
+
+  return () => ctx.revert();
+}, []);
 
   return (
-    <section ref={sectionRef} className="hidden overflow-hidden pb-24 lg:block">
-      <div className="flex h-screen items-start justify-start">
+    <section ref={sectionRef} className="hidden items-center justify-center overflow-hidden  lg:block">
+      <div className="flex h-[500px] items-start justify-start">
         <h2
           ref={textRef}
           className="shrink-0 whitespace-nowrap font-medium tracking-tight leading-tight text-[16vw] 2xl:text-[14vw]"

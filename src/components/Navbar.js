@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import navIcon from "../assets/svg/navIcon.svg";
 import navIcon2 from "../assets/svg/navIcon2.svg";
+import servicesImage from "../assets/jpg/services.JPG";
+import b2bImage from "../assets/jpg/content-experience.jpg";
+import internationalImage from "../assets/jpg/Award-winning.JPG";
+import aboutImage from "../assets/jpg/pioneers.jpg";
+import blogImage from "../assets/jpg/blog.jpg";
 
 const NAV_LINKS = [
   {
@@ -16,6 +21,11 @@ const NAV_LINKS = [
       "Data & Insights",
       "Social SEO/Search",
     ],
+  },
+  {
+    label: "Industries",
+    hasChevron: true,
+    children: ["B2B Marketing"],
   },
   {
     label: "International",
@@ -34,23 +44,205 @@ const NAV_LINKS = [
   },
   { label: "Work", badge: "25", hasChevron: false },
   { label: "Careers", hasChevron: false },
-  { label: "Blog", hasChevron: false },
+  {
+    label: "Blog & Resources",
+    hasChevron: true,
+    children: ["Blog", "Category Leaderboard", "Multi-Channel Search Report"],
+  },
   { label: "Webinar", hasChevron: false },
 ];
+
+const SERVICES_LINKS = [
+  { label: "Search & Growth Strategy", image: servicesImage },
+  { label: "Onsite SEO", image: b2bImage },
+  { label: "Content Experience", image: blogImage },
+  { label: "B2B Marketing", image: b2bImage },
+  { label: "Digital PR", image: internationalImage },
+  { label: "Social Media & Campaigns", image: aboutImage },
+  { label: "Data & Insights", image: servicesImage },
+  { label: "Social SEO/Search", image: blogImage },
+];
+
+const MEGA_MENUS = {
+  Services: {
+    type: "services",
+    image: servicesImage,
+    size: "services",
+  },
+  Industries: {
+    type: "simple",
+    links: [{ label: "B2B Marketing", image: b2bImage }],
+    image: b2bImage,
+    size: "narrow",
+  },
+  International: {
+    type: "simple",
+    links: [
+      { label: "US Digital PR", image: internationalImage },
+      { label: "Spain Digital PR", image: servicesImage },
+      { label: "Germany Digital PR", image: aboutImage },
+      { label: "Netherlands Digital PR", image: blogImage },
+    ],
+    image: internationalImage,
+    size: "standard",
+  },
+  About: {
+    type: "simple",
+    links: [
+      { label: "About Us", image: aboutImage },
+      { label: "Meet The Risers", image: servicesImage },
+      { label: "Culture", image: b2bImage },
+      { label: "Testimonials", image: internationalImage },
+    ],
+    image: aboutImage,
+    size: "standard",
+  },
+  "Blog & Resources": {
+    type: "simple",
+    links: [
+      { label: "Blog", image: blogImage },
+      { label: "Category Leaderboard", image: servicesImage },
+      { label: "Multi-Channel Search Report", image: b2bImage },
+    ],
+    image: blogImage,
+    size: "wide",
+  },
+};
 
 const FONT = "var(--font-sans-primary)";
 const DARK = "#1a1a1a";
 const WHITE = "#ffffff";
 const NAV_H = 64;
 
+function MegaImage({ src, imageKey }) {
+  return (
+    <img
+      key={imageKey || src}
+      className="ras-mega-image"
+      src={src}
+      alt=""
+      aria-hidden="true"
+    />
+  );
+}
+
+function ServicesMegaMenu({ image }) {
+  const [activeService, setActiveService] = useState(SERVICES_LINKS[0]);
+  const [visibleService, setVisibleService] = useState(SERVICES_LINKS[0]);
+  const activeImage = visibleService?.image || image;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisibleService(activeService);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [activeService]);
+
+  return (
+    <>
+      <div className="ras-mega-services-copy">
+        <p className="ras-mega-eyebrow">Core Services</p>
+        <div className="ras-mega-two-col">
+          {SERVICES_LINKS.map((item) => (
+            <a
+              key={item.label}
+              href="#"
+              className={`ras-mega-link ras-service-link ${
+                activeService?.label === item.label ? "active" : ""
+              }`}
+              onMouseEnter={() => setActiveService(item)}
+              onFocus={() => setActiveService(item)}
+            >
+              <span className="ras-service-mask">
+                <span className="ras-service-main">{item.label}</span>
+                <span className="ras-service-hover">{item.label}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div className="ras-mega-media">
+        <MegaImage src={activeImage} imageKey={visibleService?.label} />
+        <a href="#" className="ras-mega-cta">
+          View All Services ↗
+        </a>
+      </div>
+    </>
+  );
+}
+
+function SimpleMegaMenu({ links, image }) {
+  const [activeLink, setActiveLink] = useState(links[0]);
+  const [visibleLink, setVisibleLink] = useState(links[0]);
+  const activeImage = visibleLink?.image || image;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisibleLink(activeLink);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [activeLink]);
+
+  return (
+    <>
+      <div className="ras-mega-simple-links">
+        {links.map((item) => (
+          <a
+            key={item.label}
+            href="#"
+            className="ras-mega-link ras-dropdown-link"
+            onMouseEnter={() => setActiveLink(item)}
+            onFocus={() => setActiveLink(item)}
+          >
+            <span className="ras-link-mask">
+              <span className="ras-link-main">{item.label}</span>
+              <span className="ras-link-hover">{item.label}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <MegaImage src={activeImage} imageKey={visibleLink?.label} />
+    </>
+  );
+}
+
+function DesktopMegaMenu({ activeLabel, onMouseEnter, onMouseLeave }) {
+  const menu = activeLabel ? MEGA_MENUS[activeLabel] : null;
+
+  return (
+    <div
+      className={`ras-mega-wrap ${menu ? "open" : ""}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {menu && (
+        <div className={`ras-mega-card ${menu.size}`}>
+          <div key={activeLabel} className="ras-mega-content">
+            {menu.type === "services" ? (
+              <ServicesMegaMenu image={menu.image} />
+            ) : (
+              <SimpleMegaMenu links={menu.links} image={menu.image} />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState(null);
+  const [megaOpen, setMegaOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [visible, setVisible] = useState(true);
   const [barH, setBarH] = useState(0);
   // All dropdowns open by default — matches the image
   const [closedDropdowns, setClosedDropdowns] = useState([]);
   const lastScrollY = useRef(0);
+  const megaTimer = useRef(null);
 
   useEffect(() => {
     const measure = () => {
@@ -100,6 +292,22 @@ export default function Navbar() {
       prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label],
     );
   };
+  const openMega = (label) => {
+    if (megaTimer.current) clearTimeout(megaTimer.current);
+    if (MEGA_MENUS[label]) {
+      setActiveMega(label);
+      requestAnimationFrame(() => setMegaOpen(true));
+    } else {
+      setMegaOpen(false);
+    }
+  };
+  const closeMega = () => {
+    setMegaOpen(false);
+    megaTimer.current = setTimeout(() => setActiveMega(null), 180);
+  };
+  const keepMegaOpen = () => {
+    if (megaTimer.current) clearTimeout(megaTimer.current);
+  };
 
   return (
     <>
@@ -112,7 +320,7 @@ export default function Navbar() {
     border-radius: 70px;
     position: fixed;
     left: 0; right: 0;
-    z-index: 100;
+    z-index: 220;
     height: ${NAV_H}px;
     display: flex;
     align-items: center;
@@ -151,9 +359,13 @@ export default function Navbar() {
  }
   .ras-nav.hidden-nav { transform: translateY(-200%); }
   .ras-nav.visible-nav { transform: translateY(0); }
+  .ras-nav.menu-open {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   .ras-desktop-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-  .ras-desktop-links a {
+  .ras-desktop-links > li > a {
     font-size: 16px; font-weight: 700; color: ${WHITE};
     text-decoration: none; opacity: 0.85;
     transition: opacity 0.2s; font-family: ${FONT};
@@ -165,7 +377,15 @@ export default function Navbar() {
 .ras-nav.scrolled-up .ras-desktop-links a {
   color: #1a1a1a;
 }
-  .ras-desktop-links a:hover { opacity: 1; }
+  .ras-desktop-links > li > a:hover,
+  .ras-desktop-links > li > a.active { opacity: 1; }
+  .ras-desktop-links > li > a.active {
+    background: rgba(255, 255, 255, 0.78);
+    border-radius: 999px;
+    color: #1a1a1a !important;
+    padding: 10px 14px;
+    margin: -10px -14px;
+  }
 
   .ras-badge {
     display: inline-flex; align-items: center; justify-content: center;
@@ -182,6 +402,226 @@ export default function Navbar() {
   }
 
   .ras-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+
+  .ras-mega-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    background: rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+  .ras-mega-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .ras-mega-wrap {
+    position: fixed;
+    top: ${navTop + NAV_H + 14}px;
+    left: 50%;
+    z-index: 215;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-16px) scale(0.985);
+    transform-origin: top center;
+    transition:
+      opacity 0.28s ease,
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    width: min(948px, calc(100vw - 204px));
+  }
+  .ras-mega-wrap.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  .ras-mega-content {
+    display: contents;
+  }
+  .ras-mega-content > * {
+    animation: ras-mega-content-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes ras-mega-content-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.992);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .ras-mega-card {
+    background: #ffffff;
+    border-radius: 22px;
+    color: #050505;
+    display: grid;
+    gap: 28px;
+    height: 288px;
+    margin: 0 auto;
+    padding: 12px;
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    transition:
+      width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      padding 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      grid-template-columns 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ras-mega-card.services {
+    width: min(948px, 100%);
+    grid-template-columns: minmax(0, 1fr) 296px;
+    padding-left: 48px;
+  }
+  .ras-mega-card.standard,
+  .ras-mega-card.wide,
+  .ras-mega-card.narrow {
+    grid-template-columns: minmax(0, 1fr) 264px;
+    align-items: center;
+    padding-left: 46px;
+  }
+  .ras-mega-card.standard {
+    width: min(665px, 100%);
+  }
+  .ras-mega-card.narrow {
+    width: min(570px, 100%);
+  }
+  .ras-mega-card.wide {
+    width: min(752px, 100%);
+  }
+  .ras-mega-services-copy {
+    align-self: center;
+  }
+  .ras-mega-eyebrow {
+    color: #5f666b;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .ras-mega-two-col {
+    column-count: 2;
+    column-gap: 48px;
+  }
+  .ras-mega-link {
+    color: #050505;
+    display: block;
+    font-family: ${FONT};
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1.28;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .ras-mega-link:hover {
+    color: #050505;
+    opacity: 1;
+  }
+  .ras-service-link {
+    color: #050505;
+    overflow: visible;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .ras-dropdown-link {
+    color: #050505;
+    overflow: visible;
+  }
+  .ras-service-mask {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+  }
+  .ras-link-mask {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+  }
+  .ras-service-main,
+  .ras-service-hover,
+  .ras-link-main,
+  .ras-link-hover {
+    color: #050505;
+    display: block;
+    transition:
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.2s ease;
+  }
+  .ras-service-hover,
+  .ras-link-hover {
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translateY(100%);
+  }
+  .ras-service-link::before {
+    content: none;
+  }
+  .ras-service-link.active {
+    color: #050505;
+    opacity: 1;
+  }
+  .ras-service-link:hover .ras-service-main,
+  .ras-service-link.active .ras-service-main {
+    transform: translateY(-100%);
+  }
+  .ras-service-link:hover .ras-service-hover,
+  .ras-service-link.active .ras-service-hover {
+    transform: translateY(0);
+  }
+  .ras-dropdown-link:hover .ras-link-main {
+    transform: translateY(-100%);
+  }
+  .ras-dropdown-link:hover .ras-link-hover {
+    transform: translateY(0);
+  }
+  .ras-mega-media {
+    position: relative;
+  }
+  .ras-mega-image {
+    animation: ras-mega-image-in 0.24s ease-out both;
+    display: block;
+    width: 100%;
+    height: 264px;
+    border-radius: 14px;
+    object-fit: cover;
+    image-rendering: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  @keyframes ras-mega-image-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  .ras-mega-cta {
+    align-items: center;
+    background: #050505;
+    border-radius: 999px;
+    bottom: 8px;
+    color: #ffffff;
+    display: inline-flex;
+    font-family: ${FONT};
+    font-size: 16px;
+    font-weight: 800;
+    left: 8px;
+    min-height: 42px;
+    padding: 0 24px;
+    position: absolute;
+    text-decoration: none;
+  }
+  .ras-mega-simple-links {
+    align-self: center;
+  }
 
   /* ── Mobile accordion ── */
   .mob-header-btn {
@@ -249,6 +689,8 @@ export default function Navbar() {
 
   @media (max-width: 1025px) {
     .ras-desktop-links { display: none !important; }
+    .ras-mega-backdrop,
+    .ras-mega-wrap { display: none !important; }
     .ras-cta-desktop { display: none !important; }
     .git-btn {display: none !important;}
     .ras-hamburger { display: flex !important; }
@@ -296,9 +738,15 @@ export default function Navbar() {
   .git-btn-responsive:hover .git-hover-text { transform: translateY(0%); opacity: 1; }
 `}</style>
 
+      <div
+        className={`ras-mega-backdrop ${megaOpen ? "open" : ""}`}
+        onMouseEnter={closeMega}
+      />
+
       <nav
         className={[
           "ras-nav",
+          menuOpen ? "menu-open" : "",
           atTop ? "at-top" : "scrolled-up",
           visible ? "visible-nav" : "hidden-nav",
         ].join(" ")}
@@ -314,8 +762,12 @@ export default function Navbar() {
 
         <ul className="ras-desktop-links">
           {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <a href="#">
+            <li
+              key={link.label}
+              onMouseEnter={() => openMega(link.label)}
+              onMouseLeave={closeMega}
+            >
+              <a href="#" className={activeMega === link.label ? "active" : ""}>
                 {link.label}
                 {link.hasChevron ? " +" : ""}
                 {link.badge && <span className="ras-badge">{link.badge}</span>}
@@ -373,6 +825,13 @@ export default function Navbar() {
           />
         </button>
       </nav>
+
+      <DesktopMegaMenu
+        activeLabel={activeMega}
+        isOpen={megaOpen}
+        onMouseEnter={keepMegaOpen}
+        onMouseLeave={closeMega}
+      />
 
       {/* Blur backdrop */}
       <div
