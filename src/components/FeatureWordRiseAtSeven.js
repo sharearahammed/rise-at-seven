@@ -183,8 +183,9 @@ export default function FeatureWordRiseAtSeven() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="fw-rise-section">
-      <div className="fw-rise-sticky">
+    <section>
+      <div ref={sectionRef} className="fw-rise-section">
+        <div className="fw-rise-sticky">
         <div className="fw-rise-panel">
           <div className="fw-rise-text-side">
             <p className="fw-rise-kicker">Featured Work</p>
@@ -193,7 +194,7 @@ export default function FeatureWordRiseAtSeven() {
               <div
                 ref={textTrackRef}
                 className="fw-rise-text-track"
-                style={{ transform: `translate3d(0, ${state.textY}px, 0)` }}
+                style={{ transform: `translate3d(0px, ${state.textY}px, 0)` }}
               >
                 {WORKS.map((work, index) => {
                   const distance = Math.abs(index - state.activeIndex);
@@ -268,20 +269,29 @@ export default function FeatureWordRiseAtSeven() {
             <span className="fw-rise-cursor" aria-hidden="true" />
           </div>
         </div>
+
+        <div className="fw-rise-cta-wrap">
+          <a href="#" className="fw-rise-cta">
+            <span className="fw-rise-cta-text">Explore Our Work ↗</span>
+            <span className="fw-rise-cta-hover">Explore Our Work ↗</span>
+          </a>
+        </div>
+      </div>
       </div>
 
       <style>{`
         .fw-rise-section {
-          background: #f0efeb;
-          min-height: 460vh;
+          min-height: 470vh;
           padding: 28px;
           position: relative;
         }
 
         .fw-rise-sticky {
-          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          height: calc(100vh + 15px);
           position: sticky;
-          top: 0;
+          top: 28px;
         }
 
         .fw-rise-panel {
@@ -291,9 +301,10 @@ export default function FeatureWordRiseAtSeven() {
           display: grid;
           gap: clamp(28px, 4vw, 76px);
           grid-template-columns: minmax(0, 1.18fr) minmax(420px, 0.92fr);
-          height: calc(100vh - 56px);
+          height: 100%;
           overflow: hidden;
           padding: clamp(34px, 4.2vw, 66px) clamp(28px, 3.8vw, 58px);
+          position: relative;
         }
 
         .fw-rise-text-side {
@@ -305,15 +316,15 @@ export default function FeatureWordRiseAtSeven() {
 
         .fw-rise-kicker {
           font-size: clamp(18px, 1.5vw, 24px);
-          font-weight: 800;
-          letter-spacing: -0.07em;
+          font-weight: 500;
+          letter-spacing: 0.04em;
           line-height: 1;
           margin: 34px 0 0;
         }
 
         .fw-rise-text-window {
           flex: 1;
-          margin-top: clamp(120px, 23vh, 230px);
+          margin-top: clamp(120px, 16vh, 230px);
           overflow: hidden;
           -webkit-mask-image: linear-gradient(
             to bottom,
@@ -336,7 +347,7 @@ export default function FeatureWordRiseAtSeven() {
         }
 
         .fw-rise-text-track {
-          padding: 2vh 0 42vh;
+          padding: 7vh 0 42vh;
           transition: transform 0.12s linear;
           will-change: transform;
         }
@@ -368,9 +379,9 @@ export default function FeatureWordRiseAtSeven() {
 
         .fw-rise-name {
           display: block;
-          font-size: clamp(62px, 7.3vw, 122px);
-          font-weight: 900;
-          letter-spacing: -0.085em;
+          font-size: clamp(90px, 60px, 30px);
+          font-weight: 500;
+          letter-spacing: -0.04em;
           line-height: 0.86;
           max-width: 820px;
         }
@@ -388,7 +399,6 @@ export default function FeatureWordRiseAtSeven() {
         }
 
         .fw-rise-image-window {
-          height: 100%;
           overflow: hidden;
           position: relative;
           --cursor-x: 50%;
@@ -406,21 +416,11 @@ export default function FeatureWordRiseAtSeven() {
           z-index: 2;
         }
 
-        .fw-rise-image-window::before {
-          background: linear-gradient(to bottom, #101111, transparent);
-          top: 0;
-        }
-
-        .fw-rise-image-window::after {
-          background: linear-gradient(to top, #101111, transparent);
-          bottom: 0;
-        }
-
         .fw-rise-image-track {
           display: flex;
           flex-direction: column;
           gap: 28px;
-          padding-bottom: 36vh;
+          padding-bottom: 34vh;
           transition: transform 0.12s linear;
           will-change: transform;
         }
@@ -478,8 +478,8 @@ export default function FeatureWordRiseAtSeven() {
         .fw-rise-card-title {
           display: block;
           font-size: clamp(22px, 2vw, 32px);
-          font-weight: 900;
-          letter-spacing: -0.075em;
+          font-weight: 500;
+          letter-spacing: -0.04em;
           line-height: 0.96;
           max-width: min(92%, 720px);
           padding: clamp(16px, 2vw, 24px);
@@ -505,7 +505,7 @@ export default function FeatureWordRiseAtSeven() {
           display: inline-flex;
           gap: 10px;
           font-size: 15px;
-          font-weight: 900;
+          font-weight: 500;
           line-height: 1;
           padding: 11px 15px;
           position: absolute;
@@ -588,6 +588,63 @@ export default function FeatureWordRiseAtSeven() {
           transform: translate3d(-50%, -50%, 0) scale(1);
         }
 
+        .fw-rise-cta-wrap {
+          display: flex;
+          justify-content: center;
+          margin-top: 18px;
+          position: relative;
+          z-index: 5;
+        }
+
+        .fw-rise-cta {
+          align-items: center;
+          background: #ffffff;
+          border-radius: 999px;
+          color: #101111;
+          display: inline-flex;
+          font-family: var(--font-sans-primary);
+          font-size: 15px;
+          font-weight: 500;
+          line-height: 1;
+          min-height: 45px;
+          overflow: hidden;
+          padding: 0 24px;
+          position: relative;
+          text-decoration: none;
+          transition: border-radius 0.14s ease;
+          width: fit-content;
+        }
+
+        .fw-rise-cta:hover {
+          border-radius: 12px;
+        }
+
+        .fw-rise-cta-text,
+        .fw-rise-cta-hover {
+          display: block;
+          transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .fw-rise-cta-hover {
+          left: 24px;
+          opacity: 0;
+          position: absolute;
+          right: 24px;
+          text-align: center;
+          transform: translateY(100%);
+        }
+
+        .fw-rise-cta:hover .fw-rise-cta-text {
+          opacity: 0;
+          transform: translateY(-100%);
+        }
+
+        .fw-rise-cta:hover .fw-rise-cta-hover {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
         @media (max-width: 1023px) {
           .fw-rise-section {
             min-height: auto;
@@ -606,6 +663,16 @@ export default function FeatureWordRiseAtSeven() {
             height: auto;
             overflow: hidden;
             padding: 20px;
+          }
+
+          .fw-rise-cta-wrap {
+            margin-top: 20px;
+          }
+
+          .fw-rise-cta {
+            justify-content: center;
+            min-height: 46px;
+            width: 100%;
           }
 
           .fw-rise-text-side {
@@ -655,7 +722,7 @@ export default function FeatureWordRiseAtSeven() {
 
           .fw-rise-card-title {
             font-size: clamp(28px, 7vw, 36px);
-            letter-spacing: -0.08em;
+            letter-spacing: -0.04em;
             line-height: 0.92;
             max-width: 88%;
             padding: 15px 14px;
@@ -695,16 +762,16 @@ export default function FeatureWordRiseAtSeven() {
           }
 
           .fw-rise-mobile-years {
-            font-size: clamp(12px, 3.4vw, 15px);
-            font-weight: 900;
-            letter-spacing: -0.06em;
+            font-size: clamp(12px, 3.4vw, 14px);
+            font-weight: 500;
+            letter-spacing: -0.04em;
             line-height: 1;
           }
 
           .fw-rise-mobile-name {
-            font-size: clamp(28px, 8vw, 38px);
-            font-weight: 900;
-            letter-spacing: -0.085em;
+            font-size: clamp(24px, 8vw, 28px);
+            font-weight: 500;
+            letter-spacing: -0.04em;
             line-height: 0.92;
             margin-top: 4px;
           }

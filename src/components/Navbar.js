@@ -508,10 +508,10 @@ export default function Navbar() {
     color: #050505;
     display: block;
     font-family: ${FONT};
-    font-size: 23px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 500;
     letter-spacing: -0.05em;
-    line-height: 1.28;
+    line-height: 1.38;
     text-decoration: none;
     white-space: nowrap;
   }

@@ -9,9 +9,7 @@ import RiseAtSevenLogo from "../assets/svg/footherlogo.svg";
 const SocialIcon = ({ icon: Icon, href = "#" }) => (
   <a
     href={href}
-    className="flex items-center justify-center h-5 w-[46px] rounded-full bg-white border border-white text-black transition-all duration-200
-    md:w-[46px] md:h-5 md:gap-1
-    hover:border-[#4ECDB4] hover:text-[#4ECDB4]"
+    className="footer-social-icon flex items-center justify-center h-5 w-[46px] rounded-full hover:rounded-md bg-white text-black md:w-[46px] md:h-5 md:gap-1"
     target="_blank"
     rel="noopener noreferrer"
   >
@@ -43,9 +41,14 @@ const NavLink = ({ children, href = "#" }) => (
 export default function Footer() {
   return (
     <footer className="bg-[#111111] rounded-3xl overflow-hidden w-full px-[18px] pb-7 pt-[50px] md:pt-10 md:px-8 md:py-10">
+      <style>{`
+       
+
+        
+      `}</style>
       <div>
         {/* Desktop / Tablet Layout: md, lg, xl */}
-        <div className="hidden lg:grid md:grid-cols-[minmax(420px,1fr)_minmax(250px,0.48fr)_minmax(280px,0.48fr)_minmax(240px,0.35fr)] lg:grid-cols-[minmax(560px,1fr)_minmax(300px,0.45fr)_minmax(330px,0.45fr)_minmax(260px,0.35fr)] xl:grid-cols-[minmax(620px,1fr)_minmax(340px,0.45fr)_minmax(360px,0.45fr)_minmax(280px,0.35fr)] md:gap-x-10 lg:gap-x-12 xl:gap-x-14">
+        <div className="hidden lg:grid lg:grid-cols-[minmax(380px,1fr)_minmax(150px,0.38fr)_minmax(180px,0.42fr)_minmax(150px,0.34fr)] xl:grid-cols-[minmax(520px,1fr)_minmax(210px,0.42fr)_minmax(240px,0.46fr)_minmax(200px,0.36fr)] 2xl:grid-cols-[minmax(620px,1fr)_minmax(340px,0.45fr)_minmax(360px,0.45fr)_minmax(280px,0.35fr)] lg:gap-x-3 xl:gap-x-8 2xl:gap-x-14">
           <div className="flex flex-col gap-5 min-w-[360px]">
             <p className="text-white font-semibold text-[26px] lg:text-[28px] xl:text-[29px] leading-snug">
               Stay updated with Rise news

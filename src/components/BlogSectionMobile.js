@@ -437,6 +437,12 @@ export default function BlogSectionMobile() {
           }}
         />
       </div>
+      <div className="px-7 fw-rise-cta-wrap">
+          <a href="#" className="fw-rise-cta">
+            <span className="fw-rise-cta-text">Explore Our Work ↗</span>
+            <span className="fw-rise-cta-hover">Explore Our Work ↗</span>
+          </a>
+        </div>
     </section>
   );
 }

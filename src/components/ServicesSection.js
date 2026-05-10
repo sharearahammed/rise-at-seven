@@ -78,6 +78,7 @@ export default function ServicesSection() {
   const splitRef1 = useRef(null);
   const splitRef2 = useRef(null);
   const sectionRef = useRef(null);
+  const servicesSectionRef = useRef(null);
   const imageRef = useRef(null);
   const marqueeRef = useRef(null);
   const marqueeTrackRef = useRef(null);
@@ -87,72 +88,90 @@ export default function ServicesSection() {
   const marqueeIdleTimer = useRef(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
+    const servicesSection = servicesSectionRef.current;
+    const header = sectionRef.current;
+
+    if (!servicesSection || !header || !headingRef1.current || !headingRef2.current) {
+      return undefined;
+    }
+
+    let trigger;
+    let timeline;
+    let cancelled = false;
+
+    gsap.set(header, { opacity: 0 });
 
     document.fonts.ready.then(() => {
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 85%",
-          once: true,
-        },
+      if (cancelled) return;
+
+      splitRef1.current?.revert();
+      splitRef2.current?.revert();
+
+      splitRef1.current = SplitText.create(headingRef1.current, {
+        type: "chars",
+        mask: "chars",
+      });
+
+      splitRef2.current = SplitText.create(headingRef2.current, {
+        type: "chars",
+        mask: "chars",
+      });
+
+      const chars1 = splitRef1.current.chars;
+      const chars2 = splitRef2.current.chars;
+      const staggerTime = 0.08;
+
+      gsap.set([...chars1, ...chars2], { yPercent: 110 });
+      gsap.set(header, { opacity: 1 });
+
+      timeline = gsap.timeline({
+        paused: true,
         onComplete: () => {
-          splitRef1.current?.revert();
-          splitRef2.current?.revert();
+          const isLg = window.innerWidth >= 1024;
 
-          splitRef1.current = SplitText.create(headingRef1.current, {
-            type: "chars",
-            mask: "chars",
+          setImgSize({
+            w: isLg ? "113px" : "54px",
+            h: isLg ? "113px" : "54px",
           });
-
-          splitRef2.current = SplitText.create(headingRef2.current, {
-            type: "chars",
-            mask: "chars",
-          });
-
-          const chars1 = splitRef1.current.chars; // O, u, r
-          const chars2 = splitRef2.current.chars; // S, e, r, v, i, c, e, s
-          const staggerTime = 0.08;
-
-          // O, u, r animate
-          gsap.from(chars1, {
-            yPercent: 110,
-            duration: 0.5,
-            ease: "power4.out",
-            stagger: staggerTime,
-          });
-
-          // S, e, r, v, i, c, e, s animate
-          gsap.from(chars2, {
-            yPercent: 110,
-            duration: 0.5,
-            ease: "power4.out",
-            stagger: staggerTime,
-            delay: chars1.length * staggerTime,
-          });
-
-          // সব char শেষ হওয়ার পর image খুলবে
-          const allCharsTime =
-            (chars1.length + chars2.length) * staggerTime + 0.5;
-          setTimeout(() => {
-            const isLg = window.innerWidth >= 1024;
-            setImgSize({
-              w: isLg ? "113px" : "54px",
-              h: isLg ? "113px" : "54px",
-            });
-            setOpen(true);
-          }, allCharsTime * 1000);
+          setOpen(true);
         },
+      });
+
+      timeline
+        .to(chars1, {
+          yPercent: 0,
+          duration: 0.5,
+          ease: "power4.out",
+          stagger: staggerTime,
+        })
+        .to(
+          chars2,
+          {
+            yPercent: 0,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: staggerTime,
+          },
+          chars1.length * staggerTime,
+        );
+
+      trigger = ScrollTrigger.create({
+        trigger: servicesSection,
+        start: "top 70%",
+        once: true,
+        onEnter: () => timeline.play(),
       });
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      cancelled = true;
+      trigger?.kill();
+      timeline?.kill();
+      splitRef1.current?.revert();
+      splitRef2.current?.revert();
     };
+
+          // সব char শেষ হওয়ার পর image খুলবে
   }, []);
 
   useEffect(() => {
@@ -216,7 +235,10 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="bg-[#f0efeb] px-10 pt-28 max-md:px-6 max-md:pt-10">
+    <section
+      ref={servicesSectionRef}
+      className="bg-[#f0efeb] px-10 pt-28 max-md:px-6 max-md:pt-10"
+    >
       <style>{avatarStyles}</style>
       {/* Header */}
       <SectionHeader

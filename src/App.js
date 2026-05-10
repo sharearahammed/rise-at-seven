@@ -27,7 +27,7 @@ export default function App() {
         <FeatureWordRiseAtSeven />
         <ServicesSection />
         <PioneersSection />
-          <BlogSection ref={blogRef} />
+        <BlogSection ref={blogRef} />
         <ReadyToRiseMarqueeSection triggerRef={blogRef} />
       </main>
       <div className="m-[8px]">
